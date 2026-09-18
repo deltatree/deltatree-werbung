@@ -1,0 +1,28 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Abbild bauen
+        run: docker build -t deltatree-werbung:test .
+      - name: Abbild prüfen
+        run: sh test/check.sh deltatree-werbung:test
+      - name: Bei ghcr.io anmelden
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - name: Abbild hochladen
+        run: |
+          IMG=ghcr.io/${{ github.repository_owner }}/deltatree-werbung
+          docker tag deltatree-werbung:test "$IMG:latest"
+          docker tag deltatree-werbung:test "$IMG:${GITHUB_SHA::7}"
+          docker push "$IMG:latest"
+          docker push "$IMG:${GITHUB_SHA::7}"
