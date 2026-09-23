@@ -28,7 +28,14 @@ for p in /impressum.html /datenschutz.html /agb.html; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$PORT$p")
   ziel=$(curl -s -o /dev/null -w '%{redirect_url}' "http://127.0.0.1:$PORT$p")
   [ "$code" = "301" ] || fail "$p liefert $code statt einer Umleitung"
-  case "$ziel" in *"/#"*) : ;; *) fail "$p leitet auf '$ziel' statt auf einen Anker" ;; esac
+  # Das Ziel muss RELATIV sein. Eine absolute Adresse traegt den Port des Containers
+  # (8080) und das Schema http — der Besucher landete im Nichts. Genau das ist am
+  # 2026-09-23 in Produktion passiert, weil diese Pruefung nur auf "/#" sah.
+  ort=$(curl -s -D- -o /dev/null "http://127.0.0.1:$PORT$p" | tr -d '\r' | grep -i '^location:' | sed 's/^[Ll]ocation:[[:space:]]*//')
+  case "$ort" in
+    /\#*) : ;;
+    *) fail "$p leitet auf '$ort' — erwartet wird ein relativer Anker wie /#impressum" ;;
+  esac
 done
 
 SEITE="/tmp/werbung-check-$$.html"
