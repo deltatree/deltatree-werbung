@@ -1,0 +1,39 @@
+server {
+    listen 8080;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+    server_tokens off;
+
+    # Die Seite ist eine einzige Datei. .gz und .br liegen daneben und werden
+    # ausgeliefert, statt bei jeder Anfrage neu zu packen.
+    gzip_static on;
+    gzip on;
+    gzip_types text/html;
+
+    add_header X-Content-Type-Options nosniff always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+    # __SCRIPT_SRC__ setzt build-csp.py beim Bau des Abbilds ein: 'self' plus den
+    # SHA-256-Hash jedes Inline-Skripts. Kein 'unsafe-inline' — der Browser fuehrt
+    # genau diese Bytes aus und nichts sonst.
+    # data: bei img-src, weil die Seite ein Bild eingebettet traegt.
+    # connect-src: Die Seite prueft live, ob Anwendung und Schnittstelle erreichbar sind
+    # (die zwei Statuszeilen). Ohne diese beiden Herkuenfte zeigte sie dauerhaft "offline",
+    # ohne dass jemand einen Fehler saehe. test/check.sh liest die Ziele aus der Seite und
+    # haelt sie gegen diese Zeile — ein neues Ziel macht den Bau rot.
+    add_header Content-Security-Policy "default-src 'self'; script-src __SCRIPT_SRC__; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://dtadmin-frontend.capps.dtcloud.de https://dtadmin-backend.capps.dtcloud.de; form-action 'none'; base-uri 'none'; frame-ancestors 'none'" always;
+    # Nur auf Serverebene: ein add_header im location-Block hebt diese hier auf.
+    add_header Cache-Control "no-cache" always;
+
+    location = /healthz { access_log off; return 200 "ok\n"; }
+
+    # Die Rechtstexte stehen jetzt IN der Seite. Alte Links bleiben trotzdem heil:
+    # das Skript oeffnet den passenden Dialog anhand des Ankers.
+    location = /impressum.html   { return 301 /#impressum; }
+    location = /datenschutz.html { return 301 /#datenschutz; }
+    location = /agb.html         { return 301 /#agb; }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
