@@ -98,6 +98,11 @@ done
 curl -s -D- -o /dev/null -H 'Accept-Encoding: gzip' "http://127.0.0.1:$PORT/" \
   | grep -qi 'content-encoding: gzip' || fail "gzip wird nicht ausgeliefert"
 
+# 10: Keine Inline-Handler (onclick=, onsubmit= …). Die Sicherheitsregel erlaubt nur Skript
+# mit bekanntem Hash; ein Handler-Attribut blockt der Browser still. Bis 2026-09-25 ließ
+# sich deshalb kein Rechtstext schließen und das Kontaktformular nicht absenden.
+grep -Eo '[[:space:]]on[a-z]+="' "$SEITE" && fail "Inline-Handler in der Seite — die CSP blockt sie still"
+
 # 13: Kein Update-Hinweis in der Seite. Die Aktualität regelt der Server: no-cache
 # zwingt den Browser, bei jedem Aufruf per ETag nachzufragen — ein neuer Stand kommt
 # sofort, ein unveränderter kostet eine 304-Antwort ohne Inhalt.
