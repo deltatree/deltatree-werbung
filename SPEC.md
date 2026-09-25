@@ -34,14 +34,22 @@ Eine Werbeseite nutzt diese Domains sinnvoll und bringt neue Kunden.
     „offline", ohne dass ein Fehler sichtbar wäre.
 12. Die Seite ist **eine** Datei. Vorgepackte Fassungen (`.gz`, `.br`) liegen
     daneben und werden ausgeliefert, statt bei jeder Anfrage neu zu packen.
+13. Die Seite zeigt **keinen** Hinweis „neue Version". Der Server liefert
+    `Cache-Control: no-cache` und einen ETag: Jeder Aufruf fragt kurz nach und
+    erhält einen neuen Stand sofort, einen unveränderten als 304.
+14. Das Menü passt auf ein Telefon ab 390 Pixel ohne angeschnittenen Punkt. Ab
+    320 Pixel ist es waagerecht wischbar, und der aktive Punkt rückt ins Bild.
+15. Wer scrollt statt klickt, sieht den Menüpunkt des sichtbaren Abschnitts
+    unterstrichen (`aria-current`). Hover unterstreicht, statt hell zu hinterlegen.
 
 ## Abnahme
 
-- `test/check.sh` prüft die Anforderungen 3 bis 6, 8, 10, 11 und 12 gegen das
+- `test/check.sh` prüft die Anforderungen 3 bis 6, 8 und 10 bis 13 gegen das
   **gebaute Abbild**, nicht gegen die Quelle.
 - Die Prüfung der Sicherheitsregel leitet Skript-Hashes und Statusziele **aus
   der ausgelieferten Seite** ab. Eine geänderte Seite ohne passende Regel macht
   den Bau rot. Gegenprobe gemacht: beide Wachen schlagen an.
+- `test/nav.sh` prüft 14 und 15 im echten Browser (Playwright in Docker, 320 und 390 Pixel).
 
 ## Offene Fragen
 

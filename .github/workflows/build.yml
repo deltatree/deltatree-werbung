@@ -17,6 +17,8 @@ jobs:
         run: docker build -t deltatree-werbung:test .
       - name: Abbild prüfen
         run: sh test/check.sh deltatree-werbung:test
+      - name: Menü und Scroll-Spy im Browser prüfen
+        run: sh test/nav.sh deltatree-werbung:test
       - name: Bei ghcr.io anmelden
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
       - name: Abbild hochladen

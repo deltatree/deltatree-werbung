@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Prüft das gebaute Abbild gegen SPEC.md (Anforderungen 3 bis 6 und 8).
+# Prüft das gebaute Abbild gegen SPEC.md (Anforderungen 3 bis 6, 8 und 10 bis 13).
 # Aufruf: test/check.sh <abbild>
 #
 # Seit 2026-09-23 ist die Seite EINE Datei: Stil, Bild und alle Rechtstexte stehen darin.
@@ -97,6 +97,21 @@ done
 # Vorgepackte Fassungen ausliefern, statt bei jeder Anfrage neu zu packen.
 curl -s -D- -o /dev/null -H 'Accept-Encoding: gzip' "http://127.0.0.1:$PORT/" \
   | grep -qi 'content-encoding: gzip' || fail "gzip wird nicht ausgeliefert"
+
+# 13: Kein Update-Hinweis in der Seite. Die Aktualität regelt der Server: no-cache
+# zwingt den Browser, bei jedem Aufruf per ETag nachzufragen — ein neuer Stand kommt
+# sofort, ein unveränderter kostet eine 304-Antwort ohne Inhalt.
+grep -Eqi 'id="toast"|Neue Version verf' "$SEITE" && fail "Seite zeigt noch einen Update-Hinweis"
+echo "$kopf" | grep -Eqi '^cache-control:.*no-cache' || fail "Cache-Control no-cache fehlt"
+etag=$(echo "$kopf" | grep -i '^etag:' | sed 's/^[Ee][Tt][Aa][Gg]:[[:space:]]*//')
+[ -n "$etag" ] || fail "kein ETag — der Browser kann nicht günstig nachfragen"
+code=$(curl -s -o /dev/null -w '%{http_code}' -H "If-None-Match: $etag" "http://127.0.0.1:$PORT/")
+[ "$code" = "304" ] || fail "Nachfrage mit passendem ETag liefert $code statt 304"
+code=$(curl -s -o /dev/null -w '%{http_code}' -H 'Accept-Encoding: gzip' \
+  -H "If-None-Match: $(curl -sI -H 'Accept-Encoding: gzip' "http://127.0.0.1:$PORT/" | tr -d '\r' | grep -i '^etag:' | sed 's/^[^:]*:[[:space:]]*//')" \
+  "http://127.0.0.1:$PORT/")
+[ "$code" = "304" ] || fail "Nachfrage auf die gzip-Fassung liefert $code statt 304"
+echo "  Revalidierung per ETag bestätigt (304)"
 
 rm -f "$SEITE"
 echo "OK: alle Prüfungen bestanden"
