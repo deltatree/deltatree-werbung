@@ -89,6 +89,50 @@ for (const breite of [390, 320]) {
 
   await ctx.close();
 }
+// Jeder Dialog lässt sich öffnen und schließen — per Knopf, Esc und Klick auf den Rand.
+// Das Kontaktformular schickt ab. Kein Klick darf an der Sicherheitsregel scheitern.
+{
+  const ctx = await browser.newContext({ ...devices['iPhone 13'] });
+  const seite = await ctx.newPage();
+  await seite.addInitScript(() => {
+    window.__csp = [];
+    document.addEventListener('securitypolicyviolation', e => window.__csp.push(e.violatedDirective + ' ' + (e.sample || '')));
+  });
+  await seite.goto(BASIS + '/', { waitUntil: 'load' });
+  const offen = id => seite.evaluate(i => document.getElementById(i).open, id);
+  // Ein Klick, der nicht durchkommt, ist ein Befund, kein Testabbruch.
+  const klick = loc => loc.click({ timeout: 2000 }).catch(() => {});
+  const alleZu = () => seite.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
+  for (const name of ['impressum', 'agb', 'datenschutz', 'av']) {
+    const id = 'm-' + name;
+    for (const weg of ['knopf', 'esc', 'rand']) {
+      await seite.evaluate(i => document.getElementById(i).showModal(), id);
+      pruefe(await offen(id), `Dialog ${name} öffnet nicht`);
+      if (weg === 'knopf') await klick(seite.locator(`#${id} .head .x`));
+      if (weg === 'esc') await seite.keyboard.press('Escape');
+      if (weg === 'rand') await seite.mouse.click(3, 3);
+      await seite.waitForTimeout(150);
+      pruefe(!(await offen(id)), `Dialog ${name} schließt nicht per ${weg}`);
+      await alleZu();
+    }
+  }
+  // Rechtstext per Link im Fuß öffnen und schließen — wie ein Besucher
+  await klick(seite.locator('footer [data-modal="impressum"]').first());
+  pruefe(await offen('m-impressum'), 'Impressum öffnet nicht über den Link im Fuß');
+  await klick(seite.locator('#m-impressum .head .x'));
+  pruefe(!(await offen('m-impressum')), 'Impressum schließt nicht');
+  await alleZu();
+
+  // Kontaktformular: Absenden läuft über das Skript (mailto). Im alten Stand blockte die
+  // Sicherheitsregel den Inline-Handler UND das native Absenden (form-action 'none').
+  await seite.fill('#cn', 'Test'); await seite.fill('#ce', 'test@example.org'); await seite.fill('#cm', 'Hallo');
+  await seite.evaluate(() => document.querySelector('form.contact').requestSubmit());
+  await seite.waitForTimeout(300);
+  const csp = await seite.evaluate(() => window.__csp);
+  pruefe(csp.length === 0, `Sicherheitsregel blockte: ${JSON.stringify(csp)}`);
+  await ctx.close();
+}
+
 // Das Cluster-Bild im Kopf der Seite muss sichtbar sein und auf Tippen reagieren —
 // auch mit „Bewegung reduzieren". Dort blieb es bis 2026-09-25 leer: das einzige Bild
 // löschte der ResizeObserver gleich wieder.
@@ -120,4 +164,4 @@ if (fehler.length) {
   for (const f of fehler) console.error('FEHLER: ' + f);
   process.exit(1);
 }
-console.log('OK: Menü, Scroll-Spy und Cluster-Bild bestanden (320/390 px, mit und ohne reduzierte Bewegung)');
+console.log('OK: Menü, Scroll-Spy, Dialoge, Kontaktformular und Cluster-Bild bestanden (320/390 px, mit und ohne reduzierte Bewegung)');
