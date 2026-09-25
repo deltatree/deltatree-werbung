@@ -41,6 +41,9 @@ Eine Werbeseite nutzt diese Domains sinnvoll und bringt neue Kunden.
     320 Pixel ist es waagerecht wischbar, und der aktive Punkt rückt ins Bild.
 15. Wer scrollt statt klickt, sieht den Menüpunkt des sichtbaren Abschnitts
     unterstrichen (`aria-current`). Hover unterstreicht, statt hell zu hinterlegen.
+16. Das Cluster-Bild im Kopf der Seite ist sichtbar und reagiert auf Tippen — auch
+    mit der Geräte-Einstellung „Bewegung reduzieren". Dann erscheint es ruhig und
+    fertig aufgebaut statt animiert.
 
 ## Abnahme
 
@@ -49,7 +52,7 @@ Eine Werbeseite nutzt diese Domains sinnvoll und bringt neue Kunden.
 - Die Prüfung der Sicherheitsregel leitet Skript-Hashes und Statusziele **aus
   der ausgelieferten Seite** ab. Eine geänderte Seite ohne passende Regel macht
   den Bau rot. Gegenprobe gemacht: beide Wachen schlagen an.
-- `test/nav.sh` prüft 14 und 15 im echten Browser (Playwright in Docker, 320 und 390 Pixel).
+- `test/nav.sh` prüft 14 bis 16 im echten Browser (Playwright in Docker, 320 und 390 Pixel).
 
 ## Offene Fragen
 
