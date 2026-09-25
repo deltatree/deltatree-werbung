@@ -1,4 +1,4 @@
-// Prüft SPEC.md Anforderungen 14 und 15 im echten Browser.
+// Prüft SPEC.md Anforderungen 14 bis 16 im echten Browser.
 // Aufruf: node test/nav.mjs <basis-url>   (z. B. http://127.0.0.1:18080)
 //
 // check.sh sieht nur Bytes. Ob ein Menüpunkt angeschnitten ist oder der Scroll-Spy
@@ -80,10 +80,35 @@ for (const breite of [390, 320]) {
 
   await ctx.close();
 }
+// Das Cluster-Bild im Kopf der Seite muss sichtbar sein und auf Tippen reagieren —
+// auch mit „Bewegung reduzieren". Dort blieb es bis 2026-09-25 leer: das einzige Bild
+// löschte der ResizeObserver gleich wieder.
+for (const bewegung of ['no-preference', 'reduce']) {
+  const ctx = await browser.newContext({ ...devices['iPhone 13'], colorScheme: 'dark', reducedMotion: bewegung });
+  const seite = await ctx.newPage();
+  await seite.goto(BASIS + '/', { waitUntil: 'load' });
+  await seite.waitForTimeout(1200);
+  const bild = () => seite.evaluate(() => {
+    const c = document.getElementById('cluster');
+    const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+    let n = 0, summe = 0;
+    for (let i = 3; i < d.length; i += 4) if (d[i] > 0) { n++; summe += d[i - 1] + d[i - 2] + d[i - 3]; }
+    return { n, summe };
+  });
+  const vorher = await bild();
+  pruefe(vorher.n > 10000, `Bewegung ${bewegung}: Cluster-Bild ist leer (${vorher.n} Pixel)`);
+  const box = await seite.locator('#cluster').boundingBox();
+  await seite.locator('#cluster').tap({ position: { x: box.width * 0.2, y: box.height * 0.8 } });
+  await seite.waitForTimeout(300);
+  const nachher = await bild();
+  pruefe(nachher.summe !== vorher.summe, `Bewegung ${bewegung}: Tippen ins Bild ändert nichts`);
+  await ctx.close();
+}
+
 await browser.close();
 
 if (fehler.length) {
   for (const f of fehler) console.error('FEHLER: ' + f);
   process.exit(1);
 }
-console.log('OK: Menü und Scroll-Spy bestanden (320 und 390 px)');
+console.log('OK: Menü, Scroll-Spy und Cluster-Bild bestanden (320/390 px, mit und ohne reduzierte Bewegung)');
