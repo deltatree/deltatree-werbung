@@ -15,6 +15,15 @@ for (const breite of [390, 320]) {
   const seite = await ctx.newPage();
   await seite.goto(BASIS + '/', { waitUntil: 'load' });
 
+  // Die Seite nennt ihre echte Bau-Kennung, nicht „dev" (Status-Karte und Fuß).
+  const kennung = await seite.evaluate(() => ({
+    meta: document.querySelector('meta[name="dt-build"]').content,
+    status: document.getElementById('bh').textContent,
+    fuss: document.getElementById('bf').textContent,
+  }));
+  pruefe(kennung.status === kennung.meta && kennung.fuss === kennung.meta && kennung.meta !== 'dev',
+    `${breite}px: Bau-Kennung zeigt ${JSON.stringify(kennung)}`);
+
   // 3: kein seitliches Scrollen der Seite
   const seitlich = await seite.evaluate(() => document.documentElement.scrollWidth > innerWidth);
   pruefe(!seitlich, `${breite}px: Seite scrollt seitlich`);
