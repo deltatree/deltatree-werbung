@@ -9,4 +9,4 @@ trap 'docker rm -f "$NETZ-web" >/dev/null 2>&1 || true; docker network rm "$NETZ
 docker run -d --rm --name "$NETZ-web" --network "$NETZ" "$IMAGE" >/dev/null
 docker run --rm --network "$NETZ" -v "$(cd "$(dirname "$0")" && pwd)":/t:ro -w /tmp \
   mcr.microsoft.com/playwright:v1.61.1-noble \
-  sh -c 'npm i -s --no-save --no-package-lock playwright@1.61.1 >/dev/null 2>&1 && cp /t/nav.mjs . && node nav.mjs "http://$0:8080"' "$NETZ-web"
+  sh -c 'npm i -s --no-save --no-package-lock playwright@1.61.1 >/dev/null 2>&1 && cp /t/nav.mjs /t/visit.mjs . && node nav.mjs "http://$0:8080" && node visit.mjs "http://$0:8080"' "$NETZ-web"

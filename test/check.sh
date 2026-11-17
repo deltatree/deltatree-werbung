@@ -118,5 +118,46 @@ code=$(curl -s -o /dev/null -w '%{http_code}' -H 'Accept-Encoding: gzip' \
 [ "$code" = "304" ] || fail "Nachfrage auf die gzip-Fassung liefert $code statt 304"
 echo "  Revalidierung per ETag bestätigt (304)"
 
+# 17–21: Visitenkarte unter der festen Adresse /visit
+V="/tmp/werbung-visit-$$.html"
+code=$(curl -s -o "$V" -w '%{http_code}' "http://127.0.0.1:$PORT/visit")
+[ "$code" = "200" ] || fail "/visit liefert $code"
+ort=$(curl -s -D- -o /dev/null "http://127.0.0.1:$PORT/visit/" | tr -d '\r' | grep -i '^location:' | sed 's/^[Ll]ocation:[[:space:]]*//')
+[ "$ort" = "/visit" ] || fail "/visit/ leitet auf '$ort' statt relativ auf /visit"
+grep -q 'name="viewport" content="width=device-width' "$V" || fail "/visit ohne viewport"
+grep -Eo 'src="https?://[^"]*"' "$V" && fail "/visit lädt fremde Inhalte nach"
+grep -Eo '[[:space:]]on[a-z]+="' "$V" && fail "Inline-Handler in /visit — die CSP blockt sie still"
+grep -q '<link rel="canonical" href="https://deltatree.de/visit"' "$V" || fail "/visit: Kanonische Adresse fehlt"
+grep -q 'property="og:image" content="https://deltatree.de/visit/og.png"' "$V" || fail "/visit: Vorschaubild fehlt"
+grep -Eq '"@type": ?"Person"' "$V" || fail "/visit: JSON-LD Person fehlt"
+grep -q 'rel="apple-touch-icon"' "$V" && grep -q 'rel="manifest"' "$V" || fail "/visit: Home-Bildschirm-Angaben fehlen"
+vregel=$(curl -sI "http://127.0.0.1:$PORT/visit" | tr -d '\r' | grep -i 'content-security-policy')
+[ -n "$vregel" ] || fail "/visit ohne Sicherheitsregel"
+for hash in $(python3 - "$V" <<'PY'
+import base64, hashlib, re, sys
+roh = open(sys.argv[1], "rb").read()
+for b in re.findall(rb"<script\b[^>]*>(.*?)</script>", roh, re.S):
+    print("sha256-" + base64.b64encode(hashlib.sha256(b).digest()).decode())
+PY
+); do
+  echo "$vregel" | grep -q "$hash" || fail "/visit: Skript-Hash $hash fehlt in der Sicherheitsregel"
+done
+curl -s -D- -o /dev/null -H 'Accept-Encoding: gzip' "http://127.0.0.1:$PORT/visit" \
+  | grep -qi 'content-encoding: gzip' || fail "/visit: gzip wird nicht ausgeliefert"
+typ() { curl -s -o /dev/null -w '%{http_code} %{content_type}' "http://127.0.0.1:$PORT$1"; }
+case "$(typ /visit/alexander-widak.vcf)" in "200 text/vcard"*) : ;; *) fail "vCard: $(typ /visit/alexander-widak.vcf)";; esac
+case "$(typ /visit/manifest.webmanifest)" in "200 application/manifest+json"*) : ;; *) fail "Manifest: $(typ /visit/manifest.webmanifest)";; esac
+for f in qr.svg qr.png apple-touch-icon.png icon-192.png icon-512.png og.png; do
+  case "$(typ /visit/$f)" in 200\ image/*) : ;; *) fail "/visit/$f: $(typ /visit/$f)";; esac
+done
+curl -s "http://127.0.0.1:$PORT/visit/alexander-widak.vcf" | head -1 | grep -q '^BEGIN:VCARD' || fail "vCard beginnt nicht mit BEGIN:VCARD"
+curl -s "http://127.0.0.1:$PORT/visit/manifest.webmanifest" | python3 -c 'import json,sys; m=json.load(sys.stdin); assert m["start_url"]=="/visit" and m["icons"]' \
+  || fail "Manifest ungültig"
+# 18: Der QR-Code zeigt genau auf die feste Adresse (dekodiert, nicht nur vorhanden).
+qrinhalt=$(curl -s "http://127.0.0.1:$PORT/visit/qr.png" | docker run --rm -i alpine:3.22 sh -c 'cat > /tmp/q.png && apk add -q zbar imagemagick >/dev/null && zbarimg -q --raw /tmp/q.png' 2>/dev/null | tr -d '\r\n')
+[ "$qrinhalt" = "https://deltatree.de/visit" ] || fail "QR-Code enthält '$qrinhalt' statt https://deltatree.de/visit"
+echo "  Visitenkarte: Seite, Regel, vCard, Manifest, Bilder und QR-Inhalt bestätigt"
+rm -f "$V"
+
 rm -f "$SEITE"
 echo "OK: alle Prüfungen bestanden"

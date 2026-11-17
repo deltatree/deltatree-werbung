@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Widak;Alexander;;;
+FN:Alexander Widak
+ORG:DeltaTree
+TITLE:Inhaber
+EMAIL;TYPE=INTERNET,WORK:info@deltatree.de
+URL;TYPE=WORK:https://deltatree.de/
+ADR;TYPE=WORK:;;;;;;Deutschland
+NOTE:DeltaTree · DTAdmin – die Container-Plattform aus Deutschland · https://deltatree.de/visit
+END:VCARD
