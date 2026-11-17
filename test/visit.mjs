@@ -50,6 +50,29 @@ for (const breite of [390, 320]) {
   pruefe(await seite.locator('#ios-hint').isVisible(), `${breite}px: Hinweis „Zum Home-Bildschirm“ fehlt auf dem iPhone`);
   await ctx.close();
 }
+// Alle Bildschirmgrößen: kein seitliches Scrollen, Knöpfe einzeilig; ab 1000 px zwei Spalten.
+for (const [breite, hoehe] of [[768, 1024], [1024, 768], [1440, 900], [1920, 1080]]) {
+  const ctx = await browser.newContext({ viewport: { width: breite, height: hoehe } });
+  const seite = await ctx.newPage();
+  await seite.goto(BASIS + '/visit', { waitUntil: 'load' });
+  const m = await seite.evaluate(() => {
+    const r = s => document.querySelector(s).getBoundingClientRect();
+    const knoepfe = [...document.querySelectorAll('.actions .btn')].map(b => b.getBoundingClientRect().height);
+    const feat = [...document.querySelectorAll('.feat li')].map(li => Math.round(li.getBoundingClientRect().top));
+    return { seitlich: document.documentElement.scrollWidth > innerWidth, a: r('.col-a'), b: r('.col-b'),
+      knopfMax: Math.max(...knoepfe), vor: r('input[name="givenName"]'), nach: r('input[name="familyName"]'),
+      reihen: [...new Set(feat)].map(t => feat.filter(x => x === t).length) };
+  });
+  pruefe(!m.seitlich, `${breite}px: Seite scrollt seitlich`);
+  pruefe(m.knopfMax < 60, `${breite}px: Knopf bricht um (Höhe ${m.knopfMax})`);
+  pruefe(new Set(m.reihen).size === 1, `${breite}px: Funktionskacheln mit Lücke ${JSON.stringify(m.reihen)}`);
+  if (breite >= 1000) {
+    pruefe(m.b.left >= m.a.right && Math.abs(m.b.top - m.a.top) < 2, `${breite}px: keine zwei Spalten`);
+    pruefe(Math.abs(m.vor.top - m.nach.top) < 2 && m.vor.width > 100, `${breite}px: Vor- und Nachname nicht nebeneinander`);
+    pruefe(await seite.evaluate(() => document.getElementById('edit').open), `${breite}px: Anpassen nicht aufgeklappt`);
+  }
+  await ctx.close();
+}
 await browser.close();
 if (fehler.length) { console.error('FEHLER Visitenkarte:\n- ' + fehler.join('\n- ')); process.exit(1); }
-console.log('OK: Visitenkarte im Browser (390 und 320 px)');
+console.log('OK: Visitenkarte im Browser (320, 390, 768, 1024, 1440, 1920 px)');
