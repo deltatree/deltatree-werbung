@@ -65,6 +65,8 @@ server {
     location = /usecases/ { return 301 /usecases; }
     location = /usecases/website-mit-ki { try_files /usecases/website-mit-ki/index.html =404; }
     location = /usecases/website-mit-ki/ { return 301 /usecases/website-mit-ki; }
+    location = /usecases/digitale-visitenkarte { try_files /usecases/digitale-visitenkarte/index.html =404; }
+    location = /usecases/digitale-visitenkarte/ { return 301 /usecases/digitale-visitenkarte; }
     # Eigene Typen nur hier; kein add_header im Block, sonst fielen die Sicherheitsköpfe weg.
     location ~ ^/visit/[a-z0-9-]+\.vcf$ { types { } default_type "text/vcard; charset=utf-8"; }
     location = /visit/manifest.webmanifest { types { } default_type application/manifest+json; }

@@ -68,7 +68,7 @@ Eine Werbeseite nutzt diese Domains sinnvoll und bringt neue Kunden.
     `tooldescription` (WebMCP), jedes Feld `name` und `label for`.
 
 26. Unter `/usecases` stehen Anwendungsfälle mit echten Bildern aus Produktion, darunter
-    `/usecases/website-mit-ki` (Website mit KI bauen, mit Decap CMS pflegen) mit aufklappbarer Anleitung. Der Fuß der
+    `/usecases/website-mit-ki` (Website mit KI bauen, mit Decap CMS pflegen) und `/usecases/digitale-visitenkarte` (eigene Visitenkarte mit KI erstellen; Demo einer erfundenen Person, nie die Gründer-Karte) mit aufklappbarer Anleitung. Der Fuß der
     Startseite verlinkt `/usecases`. Für jede Seite gelten 3, 5, 10, 12 und 22.
 
 ## Abnahme
