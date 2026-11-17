@@ -1,0 +1,17 @@
+# DeltaTree · DTAdmin
+
+> DeltaTree DTAdmin – die Container-Plattform für Kubernetes, Domains, E-Mail und Abrechnung. Vom klassischen Webhosting zur self-service Cloud.
+
+DeltaTree (Inhaber: Alexander Widak, Deutschland) entwickelt und betreibt DTAdmin, eine self-service Container-Plattform
+auf Kubernetes: Apps und Container-Stacks, Domains, E-Mail, Datenbanken, Backups, Abrechnung. Kontakt: info@deltatree.de.
+
+## Seiten
+
+- [DeltaTree · DTAdmin – Kubernetes-Plattform aus Deutschland](https://deltatree.de/): DeltaTree DTAdmin – die Container-Plattform für Kubernetes, Domains, E-Mail und Abrechnung. Vom klassischen Webhosting zur self-service Cloud.
+- [Alexander Widak · DeltaTree – Digitale Visitenkarte](https://deltatree.de/visit): Digitale Visitenkarte von Alexander Widak, Inhaber von DeltaTree. Kontakt speichern, teilen und DTAdmin entdecken – die Container-Plattform aus Deutschland.
+
+## DTAdmin-Anwendung
+
+- [DTAdmin-Portal](https://dtadmin-frontend.capps.dtcloud.de/welcome): Anmeldung, Produkte und Pläne
+- [llms.txt der Anwendung](https://dtadmin-frontend.capps.dtcloud.de/llms.txt): Schnittstellen, CLI und MCP für KI-Agenten
+- [Entwicklerhandbuch](https://dtadmin-frontend.capps.dtcloud.de/developer-guide): Anleitungen für API und `dtcli`

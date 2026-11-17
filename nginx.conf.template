@@ -1,5 +1,21 @@
+# Bilder lange cachen; HTML und alles andere fragt per ETag nach (Anforderung 13). Ein map statt
+# add_header je location: Ein add_header im location-Block hebt die Sicherheitsköpfe des Servers auf.
+map $uri $cache_control {
+    default                                  "no-cache";
+    ~*\.(png|jpe?g|webp|svg|ico)$            "public, max-age=604800";
+}
+
+# Eine Hauptadresse (SEO): www.deltatree.de leitet dauerhaft auf deltatree.de, mit Pfad.
 server {
     listen 8080;
+    server_name www.deltatree.de;
+    server_tokens off;
+    location = /healthz { access_log off; return 200 "ok\n"; }
+    location / { return 301 https://deltatree.de$request_uri; }
+}
+
+server {
+    listen 8080 default_server;
     server_name _;
     root /usr/share/nginx/html;
     index index.html;
@@ -28,12 +44,15 @@ server {
     # haelt sie gegen diese Zeile — ein neues Ziel macht den Bau rot.
     add_header Content-Security-Policy "default-src 'self'; script-src __SCRIPT_SRC__; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://dtadmin-frontend.capps.dtcloud.de https://dtadmin-backend.capps.dtcloud.de; form-action 'none'; base-uri 'none'; frame-ancestors 'none'" always;
     # Nur auf Serverebene: ein add_header im location-Block hebt diese hier auf.
-    add_header Cache-Control "no-cache" always;
+    add_header Cache-Control $cache_control always;
 
     location = /healthz { access_log off; return 200 "ok\n"; }
 
     # Die Rechtstexte stehen jetzt IN der Seite. Alte Links bleiben trotzdem heil:
     # das Skript oeffnet den passenden Dialog anhand des Ankers.
+    # Nur wer /index.html AUFRUFT, wird umgeleitet. „index“ und try_files leiten intern ebenfalls auf
+    # /index.html; dort ist $request_uri weiter „/“ — sonst entstünde eine Schleife.
+    location = /index.html { if ($request_uri ~ "^/index\.html") { return 301 /; } }
     location = /impressum.html   { return 301 /#impressum; }
     location = /datenschutz.html { return 301 /#datenschutz; }
     location = /agb.html         { return 301 /#agb; }
@@ -44,6 +63,8 @@ server {
     # Eigene Typen nur hier; kein add_header im Block, sonst fielen die Sicherheitsköpfe weg.
     location ~ ^/visit/[a-z0-9-]+\.vcf$ { types { } default_type "text/vcard; charset=utf-8"; }
     location = /visit/manifest.webmanifest { types { } default_type application/manifest+json; }
+    # Für KI-Assistenten (llmstxt.org): Markdown. robots.txt und sitemap.xml liefert nginx mit Standardtyp.
+    location = /llms.txt { types { } default_type "text/markdown; charset=utf-8"; }
 
     location / {
         try_files $uri $uri/ /index.html;
