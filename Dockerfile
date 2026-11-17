@@ -4,7 +4,8 @@
 FROM python:3.12-alpine AS regel
 WORKDIR /bau
 COPY site/index.html nginx.conf.template build-csp.py ./
-RUN python3 build-csp.py index.html nginx.conf.template nginx.conf
+COPY site/visit/index.html visit.html
+RUN python3 build-csp.py nginx.conf.template nginx.conf index.html visit.html
 
 FROM nginxinc/nginx-unprivileged:1.29-alpine
 COPY --from=regel /bau/nginx.conf /etc/nginx/conf.d/default.conf

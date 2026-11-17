@@ -45,6 +45,17 @@ Eine Werbeseite nutzt diese Domains sinnvoll und bringt neue Kunden.
     mit der Geräte-Einstellung „Bewegung reduzieren". Dann erscheint es ruhig und
     fertig aufgebaut statt animiert.
 
+17. Unter der festen Adresse `/visit` steht eine digitale Visitenkarte von Alexander Widak mit
+    Werbung für DeltaTree und DTAdmin. `/visit/` leitet relativ auf `/visit` um.
+18. Ein QR-Code zeigt dauerhaft auf `https://deltatree.de/visit` und ist als SVG und PNG ladbar.
+    Keine Eingabe auf der Seite ändert dieses Ziel.
+19. Die Seite bietet eine vCard (`text/vcard`) zum Download. Alle Felder sind vorher änderbar;
+    die Eingaben verlassen das Gerät nicht.
+20. Teilen nutzt die Web Share API (Adresse und vCard-Datei), sonst wird der Link kopiert.
+21. Manifest, Apple-Icon und ein Hinweis für das iPhone erlauben „Zum Home-Bildschirm“. Titel,
+    Beschreibung, kanonische Adresse, Open Graph mit Vorschaubild und JSON-LD sind gesetzt.
+    Für `/visit` gelten 3, 5, 10 und 12 ebenso.
+
 ## Abnahme
 
 - `test/check.sh` prüft die Anforderungen 3 bis 6, 8 und 10 bis 13 gegen das
@@ -52,7 +63,9 @@ Eine Werbeseite nutzt diese Domains sinnvoll und bringt neue Kunden.
 - Die Prüfung der Sicherheitsregel leitet Skript-Hashes und Statusziele **aus
   der ausgelieferten Seite** ab. Eine geänderte Seite ohne passende Regel macht
   den Bau rot. Gegenprobe gemacht: beide Wachen schlagen an.
-- `test/nav.sh` prüft 14 bis 16 im echten Browser (Playwright in Docker, 320 und 390 Pixel).
+- `test/nav.sh` prüft 14 bis 16 im echten Browser (Playwright in Docker, 320 und 390 Pixel) und mit
+  `test/visit.mjs` 17 bis 21: keine CSP-Meldung, vCard (Standard und angepasst), Teilen, iPhone-Hinweis.
+- `test/check.sh` dekodiert den QR-Code und vergleicht ihn mit `https://deltatree.de/visit`.
 
 ## Offene Fragen
 

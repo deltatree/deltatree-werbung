@@ -12,28 +12,31 @@ genau diese Bytes aus und nichts sonst.
 Die Hashes ändern sich bei jedem Bau der Seite, weil das Skript die Bau-Kennung trägt.
 Deshalb entstehen sie hier beim Bau des Abbilds und nicht von Hand.
 
-Aufruf: build-csp.py <seite.html> <vorlage> <ziel>
+Aufruf: build-csp.py <vorlage> <ziel> <seite.html> [<seite.html> …]
+Seit 2026-11-17 gibt es zwei Seiten (/ und /visit). Die Regel nennt die Hashes beider Seiten.
 """
 import base64
 import hashlib
 import re
 import sys
 
-if len(sys.argv) != 4:
-    print("Aufruf: build-csp.py <seite.html> <vorlage> <ziel>", file=sys.stderr)
+if len(sys.argv) < 4:
+    print("Aufruf: build-csp.py <vorlage> <ziel> <seite.html> [<seite.html> …]", file=sys.stderr)
     sys.exit(2)
 
-seite, vorlage, ziel = sys.argv[1], sys.argv[2], sys.argv[3]
+vorlage, ziel, seiten = sys.argv[1], sys.argv[2], sys.argv[3:]
 
-with open(seite, "rb") as f:
-    roh = f.read()
-
-# Der Hash geht über die Bytes ZWISCHEN den Marken, ohne die Marken selbst.
-bloecke = re.findall(rb"<script\b[^>]*>(.*?)</script>", roh, re.S)
-if not bloecke:
-    print(f"FEHLER: kein Inline-Skript in {seite} gefunden — Vorlage passt nicht mehr",
-          file=sys.stderr)
-    sys.exit(1)
+bloecke = []
+for seite in seiten:
+    with open(seite, "rb") as f:
+        roh = f.read()
+    # Der Hash geht über die Bytes ZWISCHEN den Marken, ohne die Marken selbst.
+    gefunden = re.findall(rb"<script\b[^>]*>(.*?)</script>", roh, re.S)
+    if not gefunden:
+        print(f"FEHLER: kein Inline-Skript in {seite} gefunden — Vorlage passt nicht mehr",
+              file=sys.stderr)
+        sys.exit(1)
+    bloecke += gefunden
 
 hashes = []
 for block in bloecke:

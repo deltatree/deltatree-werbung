@@ -19,7 +19,8 @@ Seite falsch.
 
 1. Neue Seite in `webseite-deltatree.de/webseite_neu` bauen (`build.sh`).
 2. `dist/index.html`, `dist/index.html.gz` und `dist/index.html.br` nach `site/`
-   kopieren.
+   kopieren, dazu den Ordner `dist/visit/` nach `site/visit/` (Visitenkarte, siehe
+   `webseite_neu/visit/README.md`).
 3. Bauen und prüfen (siehe unten). Die Prüfung leitet Hashes und Statusziele aus
    der Seite ab — ein vergessener Schritt macht den Bau rot.
 4. Auf `main` schieben. Die sieben `werbung`-Deployments haben **keinen**
