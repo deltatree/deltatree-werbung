@@ -8,7 +8,7 @@ const pruefe = (ok, text) => { if (!ok) fehler.push(text); };
 const browser = await chromium.launch();
 
 for (const pfad of ['/usecases', '/usecases/website-mit-ki', '/usecases/digitale-visitenkarte']) {
-  for (const breite of [320, 390, 768, 1440]) {
+  for (const breite of [320, 390, 768, 1440, 1920]) {
     const ctx = await browser.newContext({ viewport: { width: breite, height: 900 }, isMobile: breite < 768, hasTouch: breite < 768 });
     const seite = await ctx.newPage();
     const meldungen = [];
@@ -22,6 +22,10 @@ for (const pfad of ['/usecases', '/usecases/website-mit-ki', '/usecases/digitale
     const kaputt = await seite.evaluate(() => [...document.images].filter(i => !i.complete || i.naturalWidth === 0).map(i => i.src));
     pruefe(kaputt.length === 0, `${pfad} ${breite}px: Bilder laden nicht: ${kaputt.join(', ')}`);
     pruefe(await seite.locator('h1').count() === 1, `${pfad} ${breite}px: nicht genau eine H1`);
+    if (breite >= 1440) { // Betreiber 2026-11-17: am Desktop die ganze Breite nutzen
+      const anteil = await seite.evaluate(() => document.querySelector('main').getBoundingClientRect().width / innerWidth);
+      pruefe(anteil >= 0.85, `${pfad} ${breite}px: Inhalt nutzt nur ${Math.round(anteil * 100)} % der Breite`);
+    }
     if (breite === 390) { // Betreiber 2026-11-17: Anrede „du“, kein IHK-Hinweis
       const text = await seite.locator('main').innerText();
       const sie = text.match(/\b(Sie|Ihr|Ihre|Ihren|Ihrem|Ihrer|Ihnen)\b/g) || [];
@@ -58,4 +62,4 @@ await ctx2.close();
 
 await browser.close();
 if (fehler.length) { console.error('FEHLER Anwendungsfälle:\n- ' + fehler.join('\n- ')); process.exit(1); }
-console.log('OK: Anwendungsfälle im Browser (320, 390, 768, 1440 px), Prompt kopierbar');
+console.log('OK: Anwendungsfälle im Browser (320, 390, 768, 1440, 1920 px), Prompt kopierbar');
