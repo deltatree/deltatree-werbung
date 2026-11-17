@@ -1,0 +1,25 @@
+# DeltaTree single-file deploy
+# Serve precompressed variants when client supports them.
+AddType text/html .html
+<IfModule mod_headers.c>
+  # Jeder Aufruf fragt kurz per ETag nach (304, wenn unveraendert) und bekommt
+  # einen neuen Stand sofort — ohne Update-Meldung in der Seite.
+  Header set Cache-Control "no-cache"
+</IfModule>
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP:Accept-Encoding} br
+  RewriteCond %{REQUEST_FILENAME}.br -s
+  RewriteRule ^(.*)\.html$ $1.html.br [QSA,L]
+  RewriteCond %{HTTP:Accept-Encoding} gzip
+  RewriteCond %{REQUEST_FILENAME}.gz -s
+  RewriteRule ^(.*)\.html$ $1.html.gz [QSA,L]
+</IfModule>
+<FilesMatch "\.html\.br$">
+  AddType text/html .br
+  Header set Content-Encoding br
+</FilesMatch>
+<FilesMatch "\.html\.gz$">
+  AddType text/html .gz
+  Header set Content-Encoding gzip
+</FilesMatch>

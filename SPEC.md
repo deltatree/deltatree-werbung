@@ -67,6 +67,10 @@ Eine Werbeseite nutzt diese Domains sinnvoll und bringt neue Kunden.
 25. Bilder werden 7 Tage gecacht, HTML fragt per ETag nach (13). Das Kontaktformular trägt `toolname` und
     `tooldescription` (WebMCP), jedes Feld `name` und `label for`.
 
+26. Unter `/usecases` stehen Anwendungsfälle mit echten Bildern aus Produktion, darunter
+    `/usecases/website-mit-ki` (Website mit KI bauen, mit Decap CMS pflegen) mit aufklappbarer Anleitung. Der Fuß der
+    Startseite verlinkt `/usecases`. Für jede Seite gelten 3, 5, 10, 12 und 22.
+
 ## Abnahme
 
 - `test/check.sh` prüft die Anforderungen 3 bis 6, 8 und 10 bis 13 gegen das
