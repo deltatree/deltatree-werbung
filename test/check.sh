@@ -162,5 +162,47 @@ qrinhalt=$(curl -s "http://127.0.0.1:$PORT/visit/qr.png" | docker run --rm -i al
 echo "  Visitenkarte: Seite, Regel, vCard, Manifest, Bilder und QR-Inhalt bestätigt"
 rm -f "$V"
 
+# 22–25: SEO und KI-Auffindbarkeit, an JEDER Seite (Vorbild LYS)
+B="http://127.0.0.1:$PORT"
+for pfad in / /visit; do
+  S="/tmp/werbung-seo-$$.html"; curl -s "$B$pfad" -o "$S"
+  can=$(grep -oE '<link rel="?canonical"? href="[^"]*"' "$S" | sed -E 's/.*href="([^"]*)"/\1/')
+  erwartet="https://deltatree.de$pfad"
+  [ "$can" = "$erwartet" ] || fail "$pfad: canonical '$can' statt $erwartet"
+  [ "$(grep -o 'application/ld+json' "$S" | wc -l | tr -d ' ')" = "1" ] || fail "$pfad: nicht genau ein JSON-LD-Block"
+  grep -q '"https://deltatree.de/#organization"' "$S" || fail "$pfad: Organisation ohne gemeinsame @id"
+  [ "$(grep -o '<h1' "$S" | wc -l | tr -d ' ')" = "1" ] || fail "$pfad: nicht genau eine H1"
+  grep -Eq '<meta name="?description"? content="[^"]{50,}' "$S" || fail "$pfad: Beschreibung fehlt"
+  grep -Eq 'property="?og:image"? content="https://' "$S" || fail "$pfad: og:image fehlt"
+  grep -Eq 'property="?og:url"? content="'"$erwartet"'"' "$S" || fail "$pfad: og:url ungleich canonical"
+  grep -Eq 'rel="?apple-touch-icon"?' "$S" || fail "$pfad: apple-touch-icon fehlt"
+  # Ungefüllte Platzhalter in Attributen oder Text (das Skript vergleicht absichtlich mit "__DT_BUILD__").
+  grep -Eq 'content="__[A-Z_]+__"|\{\{[a-zA-Z]+\}\}' "$S" && fail "$pfad: Platzhalter in der Seite"
+  rm -f "$S"
+done
+case "$(typ /robots.txt)" in "200 text/plain"*) : ;; *) fail "robots.txt: $(typ /robots.txt)";; esac
+r=$(curl -s "$B/robots.txt")
+echo "$r" | grep -q '^Sitemap: https://deltatree.de/sitemap.xml$' || fail "robots.txt ohne Sitemap-Zeile"
+echo "$r" | grep -q '^Disallow: /$' && fail "robots.txt sperrt alles"
+echo "$r" | grep -A1 '^User-agent: \*$' | grep -q '^Content-Signal: ' || fail "Content-Signal nicht direkt unter User-agent: *"
+case "$(typ /sitemap.xml)" in "200 text/xml"*|"200 application/xml"*) : ;; *) fail "sitemap.xml: $(typ /sitemap.xml)";; esac
+locs=$(curl -s "$B/sitemap.xml" | grep -oE '<loc>[^<]+' | sed 's/<loc>//' | tr '\n' ' ')
+[ "$locs" = "https://deltatree.de/ https://deltatree.de/visit " ] || fail "Sitemap ≠ Seitenliste: $locs"
+case "$(typ /llms.txt)" in "200 text/markdown"*) : ;; *) fail "llms.txt: $(typ /llms.txt)";; esac
+curl -s "$B/llms.txt" | grep -q '^# DeltaTree' || fail "llms.txt ohne Überschrift"
+for f in /og.png /apple-touch-icon.png /favicon.ico; do case "$(typ $f)" in 200\ image/*) : ;; *) fail "$f: $(typ $f)";; esac; done
+curl -sI "$B/og.png" | grep -qi '^cache-control: public, max-age=604800' || fail "Bilder ohne langen Cache"
+curl -sI "$B/og.png" | grep -qi '^content-security-policy' || fail "Bilder ohne Sicherheitsregel"
+curl -sI "$B/" | grep -qi '^x-powered-by' && fail "X-Powered-By gesetzt"
+w=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' -H 'Host: www.deltatree.de' "$B/visit?x=1")
+[ "$w" = "301 https://deltatree.de/visit?x=1" ] || fail "www leitet nicht dauerhaft auf deltatree.de: $w"
+code=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "$B/index.html")
+case "$code" in "301 "*"/") : ;; *) fail "/index.html: $code";; esac
+code=$(curl -s -o /dev/null -w '%{http_code}' "$B/")
+[ "$code" = "200" ] || fail "/ nach index-Umleitung: $code (Schleife?)"
+w=$(curl -s -o /dev/null -w '%{http_code}' -H 'Host: gartenfutter.de' "$B/")
+[ "$w" = "200" ] || fail "andere Domains liefern $w"
+echo "  SEO: canonical, JSON-LD, robots.txt, sitemap.xml, llms.txt, Bilder, www-Umleitung bestätigt"
+
 rm -f "$SEITE"
 echo "OK: alle Prüfungen bestanden"

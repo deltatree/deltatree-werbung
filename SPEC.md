@@ -56,6 +56,17 @@ Eine Werbeseite nutzt diese Domains sinnvoll und bringt neue Kunden.
     Beschreibung, kanonische Adresse, Open Graph mit Vorschaubild und JSON-LD sind gesetzt.
     Für `/visit` gelten 3, 5, 10 und 12 ebenso.
 
+22. Jede Seite hat eigenen Titel, Beschreibung, genau eine H1, `canonical` auf die eigene Adresse unter
+    `https://deltatree.de`, Open Graph mit absolutem Bild und genau einen JSON-LD-Block. Die Organisation
+    trägt überall `@id` `https://deltatree.de/#organization` — auf Startseite, Visitenkarte und in DTAdmin.
+23. `/robots.txt` (mit `Sitemap:` und `Content-Signal: search=yes, ai-input=yes, ai-train=yes` direkt unter
+    `User-agent: *`), `/sitemap.xml` und `/llms.txt` (`text/markdown`) entstehen beim Bau aus den Seiten
+    selbst (`webseite_neu/seo.py`), nicht von Hand.
+24. `www.deltatree.de` leitet dauerhaft (301) auf `https://deltatree.de` samt Pfad; `/index.html` auf `/`.
+    Andere Domains zeigen die Seite weiter direkt.
+25. Bilder werden 7 Tage gecacht, HTML fragt per ETag nach (13). Das Kontaktformular trägt `toolname` und
+    `tooldescription` (WebMCP), jedes Feld `name` und `label for`.
+
 ## Abnahme
 
 - `test/check.sh` prüft die Anforderungen 3 bis 6, 8 und 10 bis 13 gegen das
@@ -65,7 +76,9 @@ Eine Werbeseite nutzt diese Domains sinnvoll und bringt neue Kunden.
   den Bau rot. Gegenprobe gemacht: beide Wachen schlagen an.
 - `test/nav.sh` prüft 14 bis 16 im echten Browser (Playwright in Docker, 320 und 390 Pixel) und mit
   `test/visit.mjs` 17 bis 21: keine CSP-Meldung, vCard (Standard und angepasst), Teilen, iPhone-Hinweis.
-- `test/check.sh` dekodiert den QR-Code und vergleicht ihn mit `https://deltatree.de/visit`.
+- `test/check.sh` dekodiert den QR-Code und vergleicht ihn mit `https://deltatree.de/visit`, und prüft 22 bis 25
+  an jeder Seite.
+- `dtadmin/scripts/perf/lighthouse-mobil.sh https://deltatree.de/ https://deltatree.de/visit` misst mobil.
 
 ## Offene Fragen
 
