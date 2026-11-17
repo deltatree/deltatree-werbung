@@ -7,7 +7,7 @@ const fehler = [];
 const pruefe = (ok, text) => { if (!ok) fehler.push(text); };
 const browser = await chromium.launch();
 
-for (const pfad of ['/usecases', '/usecases/website-mit-ki']) {
+for (const pfad of ['/usecases', '/usecases/website-mit-ki', '/usecases/digitale-visitenkarte']) {
   for (const breite of [320, 390, 768, 1440]) {
     const ctx = await browser.newContext({ viewport: { width: breite, height: 900 }, isMobile: breite < 768, hasTouch: breite < 768 });
     const seite = await ctx.newPage();
@@ -39,6 +39,16 @@ if (BASIS.startsWith('https://')) { // Clipboard-API nur im sicheren Kontext les
   pruefe(kopiert.includes('dtadmin-ai-access.md') && kopiert.includes('Decap CMS'), `Prompt nicht in der Zwischenablage: ${kopiert.slice(0, 60)}`);
 }
 await ctx.close();
+
+// Visitenkarte: Prompt kopierbar
+const ctx2 = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+const s2 = await ctx2.newPage();
+await s2.goto(BASIS + '/usecases/digitale-visitenkarte', { waitUntil: 'load' });
+await s2.locator('summary', { hasText: 'Prompt für Ihren Coding Assistant' }).click();
+await s2.locator('#kopieren').click();
+await s2.waitForTimeout(300);
+pruefe((await s2.locator('#toast').textContent()).includes('kopiert'), 'Visitenkarte-Prompt: kein „kopiert“-Hinweis');
+await ctx2.close();
 
 await browser.close();
 if (fehler.length) { console.error('FEHLER Anwendungsfälle:\n- ' + fehler.join('\n- ')); process.exit(1); }
