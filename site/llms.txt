@@ -8,7 +8,7 @@ auf Kubernetes: Apps und Container-Stacks, Domains, E-Mail, Datenbanken, Backups
 ## Seiten
 
 - [DeltaTree · DTAdmin – Kubernetes-Plattform aus Deutschland](https://deltatree.de/): DeltaTree DTAdmin – die Container-Plattform für Kubernetes, Domains, E-Mail und Abrechnung. Vom klassischen Webhosting zur self-service Cloud.
-- [Anwendungsfälle – was Sie mit DeltaTree DTAdmin bauen](https://deltatree.de/usecases): Anwendungsfälle von DeltaTree DTAdmin: echte Beispiele aus unserer Produktion, Schritt für Schritt erklärt – von der Website mit KI und CMS bis zur digitalen Visitenkarte.
+- [Anwendungsfälle – was Sie mit DeltaTree DTAdmin bauen](https://deltatree.de/usecases): Anwendungsfälle von DeltaTree DTAdmin: echte Beispiele aus unserer Produktion, Schritt für Schritt erklärt – zum Beispiel eine Website, die eine KI baut und Ihr Team ohne Code pflegt.
 - [Website mit KI bauen und pflegen – DeltaTree Anwendungsfall](https://deltatree.de/usecases/website-mit-ki): Website mit KI bauen und pflegen: Die KI baut das Layout, Ihr Team pflegt Inhalte mit Decap CMS ohne Code, DeltaTree betreibt alles in Deutschland. Echte Bilder und Anleitung.
 - [Alexander Widak · DeltaTree – Digitale Visitenkarte](https://deltatree.de/visit): Digitale Visitenkarte von Alexander Widak, Inhaber von DeltaTree. Kontakt speichern, teilen und DTAdmin entdecken – die Container-Plattform aus Deutschland.
 
