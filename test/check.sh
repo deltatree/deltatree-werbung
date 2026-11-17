@@ -147,10 +147,13 @@ curl -s -D- -o /dev/null -H 'Accept-Encoding: gzip' "http://127.0.0.1:$PORT/visi
 typ() { curl -s -o /dev/null -w '%{http_code} %{content_type}' "http://127.0.0.1:$PORT$1"; }
 case "$(typ /visit/alexander-widak.vcf)" in "200 text/vcard"*) : ;; *) fail "vCard: $(typ /visit/alexander-widak.vcf)";; esac
 case "$(typ /visit/manifest.webmanifest)" in "200 application/manifest+json"*) : ;; *) fail "Manifest: $(typ /visit/manifest.webmanifest)";; esac
-for f in qr.svg qr.png apple-touch-icon.png icon-192.png icon-512.png og.png; do
+for f in qr.svg qr.png apple-touch-icon.png icon-192.png icon-512.png og.png photo.webp photo.jpg; do
   case "$(typ /visit/$f)" in 200\ image/*) : ;; *) fail "/visit/$f: $(typ /visit/$f)";; esac
 done
 curl -s "http://127.0.0.1:$PORT/visit/alexander-widak.vcf" | head -1 | grep -q '^BEGIN:VCARD' || fail "vCard beginnt nicht mit BEGIN:VCARD"
+curl -s "http://127.0.0.1:$PORT/visit/alexander-widak.vcf" | grep -q '^PHOTO;ENCODING=b;TYPE=JPEG:/9j/' || fail "vCard ohne JPEG-Foto"
+curl -s "http://127.0.0.1:$PORT/visit/alexander-widak.vcf" | python3 -c 'import sys; z=sys.stdin.buffer.read().split(b"\r\n"); sys.exit(any(len(l) > 75 for l in z))' \
+  || fail "vCard-Zeile länger als 75 Bytes (nicht gefaltet)"
 curl -s "http://127.0.0.1:$PORT/visit/manifest.webmanifest" | python3 -c 'import json,sys; m=json.load(sys.stdin); assert m["start_url"]=="/visit" and m["icons"]' \
   || fail "Manifest ungültig"
 # 18: Der QR-Code zeigt genau auf die feste Adresse (dekodiert, nicht nur vorhanden).
