@@ -13,8 +13,9 @@ for (const breite of [390, 320]) {
   const csp = [];
   seite.on('console', m => { if (/Content Security Policy|Refused/i.test(m.text())) csp.push(m.text()); });
   seite.on('pageerror', e => csp.push('Skriptfehler: ' + e.message));
-  await seite.goto(BASIS + '/visit', { waitUntil: 'load' });
+  await seite.goto(BASIS + '/visit', { waitUntil: 'networkidle' });
 
+  pruefe(await seite.locator('img.avatar').evaluate(i => i.complete && i.naturalWidth === 400), `${breite}px: Foto lädt nicht`);
   pruefe(csp.length === 0, `${breite}px: CSP/Skript meldet ${csp.join(' | ')}`);
   pruefe(!(await seite.evaluate(() => document.documentElement.scrollWidth > innerWidth)), `${breite}px: Seite scrollt seitlich`);
   pruefe((await seite.locator('h1').textContent()).trim() === 'Alexander Widak', `${breite}px: Name fehlt`);
@@ -25,17 +26,20 @@ for (const breite of [390, 320]) {
 
   // vCard: Standard und personalisiert.
   let dl = await Promise.all([seite.waitForEvent('download'), seite.click('#save')]).then(r => r[0]);
-  let text = await (await dl.createReadStream()).toArray().then(b => Buffer.concat(b).toString('utf8'));
+  let roh = await (await dl.createReadStream()).toArray().then(b => Buffer.concat(b).toString('utf8'));
+  pruefe(roh.split('\r\n').every(l => Buffer.byteLength(l) <= 75), `${breite}px: vCard-Zeile über 75 Bytes`);
+  let text = roh.replace(/\r\n /g, ''); // gefaltete Zeilen für die Prüfung zusammensetzen
   pruefe(dl.suggestedFilename() === 'alexander-widak.vcf', `${breite}px: Dateiname ${dl.suggestedFilename()}`);
   pruefe(/^BEGIN:VCARD\r\nVERSION:3.0\r\n/.test(text) && /FN:Alexander Widak\r\n/.test(text) && /EMAIL;TYPE=INTERNET,WORK:info@deltatree.de/.test(text),
     `${breite}px: vCard unvollständig: ${JSON.stringify(text)}`);
   pruefe(text.includes('https://deltatree.de/visit'), `${breite}px: vCard ohne feste Adresse`);
+  pruefe(/\r\nPHOTO;ENCODING=b;TYPE=JPEG:\/9j\//.test(text), `${breite}px: vCard ohne Foto`);
 
   await seite.click('#edit summary');
   await seite.fill('input[name="telephone"]', '+49 170 1234567');
   await seite.fill('textarea[name="note"]', 'Messe; Stand 4, Halle B');
   dl = await Promise.all([seite.waitForEvent('download'), seite.click('#vform button[type="submit"]')]).then(r => r[0]);
-  text = await (await dl.createReadStream()).toArray().then(b => Buffer.concat(b).toString('utf8'));
+  text = await (await dl.createReadStream()).toArray().then(b => Buffer.concat(b).toString('utf8')).then(t => t.replace(/\r\n /g, ''));
   pruefe(text.includes('TEL;TYPE=WORK,VOICE:+49 170 1234567'), `${breite}px: Telefon fehlt in personalisierter vCard`);
   pruefe(text.includes('NOTE:Messe\\; Stand 4\\, Halle B · https://deltatree.de/visit'), `${breite}px: Notiz falsch maskiert: ${JSON.stringify(text.split('\r\n').find(l => l.startsWith('NOTE')))}`);
   pruefe(await seite.locator('.qr img').getAttribute('src') === '/visit/qr.svg', `${breite}px: QR-Ziel verändert`);
