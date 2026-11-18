@@ -48,6 +48,8 @@ for (const [pfad, ziele] of Object.entries(ERWARTET)) {
   for (const d of await seite.locator('#selbst details').all()) await d.evaluate(e => { e.open = true; });
   const sichtbar = await seite.locator('main').innerText();
   pruefe(!/zusammenführen|pull-request/i.test(sichtbar), `${pfad}: Seite verlangt Git-Wissen (Pull-Request/Zusammenführen)`);
+  // Daten ändern ohne Code (Betreiber 2026-11-18): kein JSON, kein „committen“ für den Menschen.
+  pruefe(!/committen|\.json\b/i.test(sichtbar.replace(/forgejo-token\.txt/g, '')), `${pfad}: Seite verlangt JSON oder „committen“`);
   pruefe(await seite.locator('button.kopieren').count() === ziele.length, `${pfad}: ${ziele.length} Kopierknöpfe erwartet`);
   for (const ziel of ziele) {
     const knopf = seite.locator(`button.kopieren[data-ziel="${ziel}"]`);
