@@ -43,8 +43,11 @@ for (const [pfad, ziele] of Object.entries(ERWARTET)) {
   const seite = await ctx.newPage();
   await seite.goto(BASIS + pfad, { waitUntil: 'load' });
   const html = await seite.content();
+  pruefe(!/zusammenführen|pull-request/i.test(await seite.evaluate(() => [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => s.textContent).join(' '))), `${pfad}: JSON-LD nennt Pull-Request/Zusammenführen`);
   pruefe(!html.includes('config.yml'), `${pfad}: nennt config.yml (die WAF sperrt die Datei mit 403)`);
   for (const d of await seite.locator('#selbst details').all()) await d.evaluate(e => { e.open = true; });
+  const sichtbar = await seite.locator('main').innerText();
+  pruefe(!/zusammenführen|pull-request/i.test(sichtbar), `${pfad}: Seite verlangt Git-Wissen (Pull-Request/Zusammenführen)`);
   pruefe(await seite.locator('button.kopieren').count() === ziele.length, `${pfad}: ${ziele.length} Kopierknöpfe erwartet`);
   for (const ziel of ziele) {
     const knopf = seite.locator(`button.kopieren[data-ziel="${ziel}"]`);
@@ -64,6 +67,8 @@ for (const [pfad, ziele] of Object.entries(ERWARTET)) {
     const text = ((await seite.locator('#' + ziel).textContent().catch(() => '')) || '');
     pruefe(!/<dein token>|zugangstoken:\s*</i.test(text), `${pfad} ${ziel}: Prompt verlangt das Token im Chat-Text`);
     if (/token/i.test(text)) pruefe(text.includes('forgejo-token.txt'), `${pfad} ${ziel}: Prompt nennt die Token-Datei forgejo-token.txt nicht`);
+    // Freigabe ohne Git-Kenntnisse (Betreiber 2026-11-18): kein Pull-Request, kein „Zusammenführen“ für den Menschen.
+    pruefe(!/pull-request|zusammenf/i.test(text), `${pfad} ${ziel}: Prompt verlangt eine Freigabe in Git`);
   }
   await ctx.close();
 }
