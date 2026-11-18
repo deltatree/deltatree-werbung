@@ -37,7 +37,7 @@ for (const pfad of ['/usecases', '/usecases/website-mit-ki', '/usecases/digitale
 }
 
 // Anleitung: jeder Prompt hat einen eigenen Kopierknopf (Echttest 2026-11-18: Werkstatt, Website, Design, Karte)
-const ERWARTET = { '/usecases/website-mit-ki': ['prompt', 'prompt-website', 'prompt-design'], '/usecases/digitale-visitenkarte': ['prompt', 'prompt-karte'] };
+const ERWARTET = { '/usecases/website-mit-ki': ['prompt', 'prompt-website', 'prompt-inhalt', 'prompt-design'], '/usecases/digitale-visitenkarte': ['prompt', 'prompt-karte', 'prompt-daten'] };
 for (const [pfad, ziele] of Object.entries(ERWARTET)) {
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, permissions: ['clipboard-read', 'clipboard-write'] });
   const seite = await ctx.newPage();
