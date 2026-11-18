@@ -68,6 +68,22 @@ for (const [pfad, ziele] of Object.entries(ERWARTET)) {
   await ctx.close();
 }
 
+// Wer pflegt? Überall, wo die Seite sagt „dein Team pflegt“ oder „änderst du“, steht die KI als Alternative
+// im selben Satz oder in derselben Überschrift – nicht nur im Kleingedruckten darunter (Betreiber 2026-11-18).
+for (const pfad of ['/usecases', '/usecases/website-mit-ki', '/usecases/digitale-visitenkarte']) {
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+  const seite = await ctx.newPage();
+  await seite.goto(BASIS + pfad, { waitUntil: 'load' });
+  const stellen = await seite.evaluate(() => [
+    ...[...document.querySelectorAll('main h1, main h2, main h3, main p, main li')].map(e => e.innerText),
+    ...[...document.querySelectorAll('meta[name="description"], meta[property="og:description"]')].map(e => e.content),
+  ]);
+  for (const t of stellen.filter(t => /\b(pflegt|pflegst|änderst du)\b/i.test(t))) {
+    pruefe(/deine[rn]? KI/.test(t), `${pfad}: „${t.slice(0, 70)}“ nennt die KI nicht als Alternative`);
+  }
+  await ctx.close();
+}
+
 await browser.close();
 if (fehler.length) { console.error('FEHLER Anwendungsfälle:\n- ' + fehler.join('\n- ')); process.exit(1); }
 console.log('OK: Anwendungsfälle im Browser (320, 390, 768, 1440, 1920 px), Prompt kopierbar');
