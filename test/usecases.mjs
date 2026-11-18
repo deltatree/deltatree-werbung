@@ -59,6 +59,12 @@ for (const [pfad, ziele] of Object.entries(ERWARTET)) {
     }
   }
   pruefe(((await seite.locator('#prompt').textContent().catch(() => '')) || '').includes('dtadmin-ai-access.md'), `${pfad}: Prompt 1 nennt die KI-Anleitung nicht`);
+  // Ein Geheimnis gehört nie in den Chat: Der Prompt verweist auf die Datei, die der Mensch angelegt hat.
+  for (const ziel of ziele) {
+    const text = ((await seite.locator('#' + ziel).textContent().catch(() => '')) || '');
+    pruefe(!/<dein token>|zugangstoken:\s*</i.test(text), `${pfad} ${ziel}: Prompt verlangt das Token im Chat-Text`);
+    if (/token/i.test(text)) pruefe(text.includes('forgejo-token.txt'), `${pfad} ${ziel}: Prompt nennt die Token-Datei forgejo-token.txt nicht`);
+  }
   await ctx.close();
 }
 
