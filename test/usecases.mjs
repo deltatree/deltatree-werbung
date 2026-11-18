@@ -36,29 +36,31 @@ for (const pfad of ['/usecases', '/usecases/website-mit-ki', '/usecases/digitale
   }
 }
 
-// Anleitung: aufklappen und Prompt kopieren
-const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, permissions: ['clipboard-read', 'clipboard-write'] });
-const seite = await ctx.newPage();
-await seite.goto(BASIS + '/usecases/website-mit-ki', { waitUntil: 'load' });
-await seite.locator('summary', { hasText: 'Prompt für deinen Coding Assistant' }).click();
-await seite.locator('#kopieren').click();
-await seite.waitForTimeout(300);
-pruefe((await seite.locator('#toast').textContent()).includes('kopiert'), 'Prompt: kein „kopiert“-Hinweis');
-if (BASIS.startsWith('https://')) { // Clipboard-API nur im sicheren Kontext lesbar
-  const kopiert = await seite.evaluate(() => navigator.clipboard.readText()).catch(() => '');
-  pruefe(kopiert.includes('dtadmin-ai-access.md') && kopiert.includes('Decap CMS'), `Prompt nicht in der Zwischenablage: ${kopiert.slice(0, 60)}`);
+// Anleitung: jeder Prompt hat einen eigenen Kopierknopf (Echttest 2026-11-18: Werkstatt, Website, Design, Karte)
+const ERWARTET = { '/usecases/website-mit-ki': ['prompt', 'prompt-website', 'prompt-design'], '/usecases/digitale-visitenkarte': ['prompt', 'prompt-karte'] };
+for (const [pfad, ziele] of Object.entries(ERWARTET)) {
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, permissions: ['clipboard-read', 'clipboard-write'] });
+  const seite = await ctx.newPage();
+  await seite.goto(BASIS + pfad, { waitUntil: 'load' });
+  const html = await seite.content();
+  pruefe(!html.includes('config.yml'), `${pfad}: nennt config.yml (die WAF sperrt die Datei mit 403)`);
+  for (const d of await seite.locator('#selbst details').all()) await d.evaluate(e => { e.open = true; });
+  pruefe(await seite.locator('button.kopieren').count() === ziele.length, `${pfad}: ${ziele.length} Kopierknöpfe erwartet`);
+  for (const ziel of ziele) {
+    const knopf = seite.locator(`button.kopieren[data-ziel="${ziel}"]`);
+    if (await knopf.count() !== 1) { pruefe(false, `${pfad}: Kopierknopf für ${ziel} fehlt`); continue; }
+    await knopf.click();
+    await seite.waitForTimeout(300);
+    pruefe((await seite.locator('#toast').textContent()).includes('kopiert'), `${pfad} ${ziel}: kein „kopiert“-Hinweis`);
+    if (BASIS.startsWith('https://')) { // Clipboard-API nur im sicheren Kontext lesbar
+      const kopiert = await seite.evaluate(() => navigator.clipboard.readText()).catch(() => '');
+      const soll = (await seite.locator('#' + ziel).textContent()).trim();
+      pruefe(kopiert.trim() === soll, `${pfad} ${ziel}: Zwischenablage ≠ Prompt (${kopiert.slice(0, 40)})`);
+    }
+  }
+  pruefe(((await seite.locator('#prompt').textContent().catch(() => '')) || '').includes('dtadmin-ai-access.md'), `${pfad}: Prompt 1 nennt die KI-Anleitung nicht`);
+  await ctx.close();
 }
-await ctx.close();
-
-// Visitenkarte: Prompt kopierbar
-const ctx2 = await browser.newContext({ viewport: { width: 1280, height: 900 } });
-const s2 = await ctx2.newPage();
-await s2.goto(BASIS + '/usecases/digitale-visitenkarte', { waitUntil: 'load' });
-await s2.locator('summary', { hasText: 'Prompt für deinen Coding Assistant' }).click();
-await s2.locator('#kopieren').click();
-await s2.waitForTimeout(300);
-pruefe((await s2.locator('#toast').textContent()).includes('kopiert'), 'Visitenkarte-Prompt: kein „kopiert“-Hinweis');
-await ctx2.close();
 
 await browser.close();
 if (fehler.length) { console.error('FEHLER Anwendungsfälle:\n- ' + fehler.join('\n- ')); process.exit(1); }
