@@ -42,7 +42,7 @@ for (const breite of [390, 320]) {
   text = await (await dl.createReadStream()).toArray().then(b => Buffer.concat(b).toString('utf8')).then(t => t.replace(/\r\n /g, ''));
   pruefe(text.includes('TEL;TYPE=WORK,VOICE:+49 170 1234567'), `${breite}px: Telefon fehlt in personalisierter vCard`);
   pruefe(text.includes('NOTE:Messe\\; Stand 4\\, Halle B · https://deltatree.de/visit'), `${breite}px: Notiz falsch maskiert: ${JSON.stringify(text.split('\r\n').find(l => l.startsWith('NOTE')))}`);
-  pruefe(await seite.locator('.qr img').getAttribute('src') === '/visit/qr.svg', `${breite}px: QR-Ziel verändert`);
+  pruefe(/^\/visit\/qr\.svg\?v=[0-9a-f]{10}$/.test(await seite.locator('.qr img').getAttribute('src')), `${breite}px: QR-Ziel verändert`);
 
   // Teilen: Web Share API mit fester Adresse.
   await seite.evaluate(() => { window.__geteilt = null; navigator.share = async d => { window.__geteilt = d; }; });
