@@ -148,7 +148,10 @@ grep -q 'name="viewport" content="width=device-width' "$V" || fail "/visit ohne 
 grep -Eo 'src="https?://[^"]*"' "$V" && fail "/visit lädt fremde Inhalte nach"
 grep -Eo '[[:space:]]on[a-z]+="' "$V" && fail "Inline-Handler in /visit — die CSP blockt sie still"
 grep -q '<link rel="canonical" href="https://deltatree.de/visit"' "$V" || fail "/visit: Kanonische Adresse fehlt"
-grep -q 'property="og:image" content="https://deltatree.de/visit/og.png"' "$V" || fail "/visit: Vorschaubild fehlt"
+grep -Eq 'property="og:image" content="https://deltatree.de/visit/og.png(\?v=[0-9a-f]{10})?"' "$V" || fail "/visit: Vorschaubild fehlt"
+# Bilder bleiben 7 Tage im Browser: Jede Bildadresse trägt ihren Inhalts-Hash (2026-11-19).
+grep -oE '(src|href|content)="[^"]*/visit/[^"]+\.(png|svg|webp|jpg)[^"]*"' "$V" | grep -vE '\?v=[0-9a-f]{10}"$' \
+  && fail "/visit: Bildadresse ohne Versionskennung"
 grep -Eq '"@type": ?"Person"' "$V" || fail "/visit: JSON-LD Person fehlt"
 grep -q 'rel="apple-touch-icon"' "$V" && grep -q 'rel="manifest"' "$V" || fail "/visit: Home-Bildschirm-Angaben fehlen"
 vregel=$(curl -sI "http://127.0.0.1:$PORT/visit" | tr -d '\r' | grep -i 'content-security-policy')
