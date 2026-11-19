@@ -79,6 +79,8 @@ done
 grep -Eq '[0-9]+\+ |99,9' "$SEITE" && fail "unbelegte Kennzahl auf der Startseite"
 # Hardware ist gemietet (Contabo, Strato, IONOS), eine ISO-Zertifizierung ist nicht belegt (Inhaber 2026-11-19)
 grep -Eiq 'eigene[rn]? Hardware|ISO-?27001|Keine Jahresvertr' "$SEITE" && fail "unbelegte Zusage zu Hardware, Zertifikat oder Laufzeit"
+# Elasticsearch stellt DTAdmin nicht bereit (DatabaseController, 2026-11-19).
+grep -rliq elasticsearch "$ORDNER" --include='*.html' --include='*.txt' && fail "Seite verspricht Elasticsearch"
 
 # Die Sicherheitsregel muss die Seite auch WIRKLICH erlauben. Ohne diese Prüfung
 # lieferte der Server eine Seite aus, die der Browser stumm blockt — und niemand merkt es,
