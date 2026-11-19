@@ -39,6 +39,17 @@ for p in /impressum.html /datenschutz.html /agb.html; do
 done
 
 SEITE="/tmp/werbung-check-$$.html"
+# Vorkomprimierte Fassungen müssen zur Seite passen: nginx liefert sie per
+# gzip_static aus. Fund 2026-11-19: neue index.html, alte index.html.gz live.
+ORDNER="$(cd "$(dirname "$0")/.." && pwd)/site"
+for gz in $(find "$ORDNER" -name '*.html.gz'); do
+  gunzip -c "$gz" | cmp -s - "${gz%.gz}" || fail "${gz#$ORDNER/} passt nicht zu ${gz%.gz}"
+done
+if command -v brotli >/dev/null; then
+  for br in $(find "$ORDNER" -name '*.html.br'); do
+    brotli -dc "$br" | cmp -s - "${br%.br}" || fail "${br#$ORDNER/} passt nicht zur Seite"
+  done
+fi
 curl -s "http://127.0.0.1:$PORT/" -o "$SEITE"
 
 # 5: keine Cookies
