@@ -1,13 +1,13 @@
 # DeltaTree · DTAdmin
 
-> DTAdmin ist die Container-Plattform von DeltaTree: Apps, Domains, E-Mail und Datenbanken in einer Oberfläche. Für Entwickler, Plattform-Teams und alle, die einfach eine Website wollen.
+> DTAdmin ist die Container-Plattform von DeltaTree: Apps, Domains, E-Mail und Datenbanken richtest du selbst ein oder lässt es deine KI erledigen. Für Entwickler, Plattform-Teams und alle, die einfach eine Website wollen.
 
 DeltaTree (Inhaber: Alexander Widak, Deutschland) entwickelt und betreibt DTAdmin, eine self-service Container-Plattform
 auf Kubernetes: Apps und Container-Stacks, Domains, E-Mail, Datenbanken, Backups, Abrechnung. Kontakt: info@deltatree.de.
 
 ## Seiten
 
-- [DeltaTree · DTAdmin – Container-Plattform aus Deutschland](https://deltatree.de/): DTAdmin ist die Container-Plattform von DeltaTree: Apps, Domains, E-Mail und Datenbanken in einer Oberfläche. Für Entwickler, Plattform-Teams und alle, die einfach eine Website wollen.
+- [DeltaTree · DTAdmin – Container-Plattform aus Deutschland](https://deltatree.de/): DTAdmin ist die Container-Plattform von DeltaTree: Apps, Domains, E-Mail und Datenbanken richtest du selbst ein oder lässt es deine KI erledigen. Für Entwickler, Plattform-Teams und alle, die einfach eine Website wollen.
 - [DTAdmin für Entwickler – Code pushen, wir betreiben ihn](https://deltatree.de/entwickler/): Für Entwickler und kleine Teams: DTAdmin baut deinen Code mit Nixpacks, rollt ihn auf Kubernetes aus und liefert Domains, Mail und Datenbanken dazu. Hosting in Deutschland.
 - [DTAdmin für Plattform-Teams – viele Teams, mehrere Cluster](https://deltatree.de/plattform/): Für große Teams und Plattform-Betreiber: Multi-Cluster, Rollen und Service-Accounts, CLI und API, Helm und private Registry. Betrieben in deutschen Rechenzentren.
 - [Website mit KI – deine KI baut sie, DeltaTree betreibt sie](https://deltatree.de/website-mit-ki/): Eine eigene Website oder digitale Visitenkarte ohne Technikwissen: Deine KI baut sie, du änderst Texte im Browser, DeltaTree kümmert sich um Server, Domain, HTTPS und Sicherung. Zwei echte Beispiele mit Anleitung.
