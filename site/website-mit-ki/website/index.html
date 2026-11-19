@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7fafc" media="(prefers-color-scheme: light)">
+<meta name="description" content="Echtes Beispiel aus der DeltaTree-Produktion: Eine KI baut die Website der Grundschule Sonnenwiese, das Team pflegt sie im Browser. Fünf Schritte mit Bildern und getesteten Prompts zum Nachmachen.">
+<title>Anwendungsfall: Schul-Website mit KI bauen und im Team pflegen</title>
+<link rel="canonical" href="https://deltatree.de/website-mit-ki/website/">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DeltaTree">
+<meta property="og:locale" content="de_DE">
+<meta property="og:url" content="https://deltatree.de/website-mit-ki/website/">
+<meta property="og:title" content="Anwendungsfall: Schul-Website mit KI bauen und im Team pflegen">
+<meta property="og:description" content="Echtes Beispiel aus der DeltaTree-Produktion: Eine KI baut die Website der Grundschule Sonnenwiese, das Team pflegt sie im Browser. Fünf Schritte mit Bildern und getesteten Prompts zum Nachmachen.">
+<meta property="og:image" content="https://deltatree.de/og.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="icon" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M261 140L165 308l91 158 121-209 121-210H315z" fill="%231697F6"/><path d="M135 256l6 12 91-157 37-64H14z" fill="%23AEDDFF"/><path d="M315 47c46 150-59 419-59 419L165 308z" fill="%231867C0"/><path d="M269 47C76 47 141 268 141 268z" fill="%237BC6FF"/></svg>'>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "@id": "https://deltatree.de/website-mit-ki/website/#webpage",
+   "url": "https://deltatree.de/website-mit-ki/website/",
+   "name": "Anwendungsfall: Schul-Website mit KI bauen und im Team pflegen",
+   "description": "Echtes Beispiel aus der DeltaTree-Produktion: Eine KI baut die Website der Grundschule Sonnenwiese, das Team pflegt sie im Browser. Fünf Schritte mit Bildern und getesteten Prompts zum Nachmachen.",
+   "isPartOf": {
+    "@id": "https://deltatree.de/#website"
+   },
+   "about": {
+    "@id": "https://deltatree.de/#dtadmin"
+   },
+   "inLanguage": "de"
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Startseite",
+     "item": "https://deltatree.de/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Website mit KI",
+     "item": "https://deltatree.de/website-mit-ki/website/"
+    }
+   ]
+  }
+ ]
+}
+</script>
+</head>
+<body>
+<a href="#main" class="skip">Zum Inhalt springen</a>
+<header class="nav">
+<div class="wrap nav-row">
+<a href="/" class="brand" aria-label="DeltaTree DTAdmin Startseite">
+<img src="/assets/logo.png" alt="DeltaTree Logo" width="304" height="96">
+<span class="b2">DTAdmin</span>
+</a>
+<nav class="nav-links" aria-label="Hauptnavigation">
+<a href="/entwickler/">Entwickler</a>
+<a href="/plattform/">Plattform-Teams</a>
+<a href="/website-mit-ki/" aria-current="page">Website mit KI</a>
+<a href="/preise/">Preise</a>
+<a href="/wechsel/">Wechsel</a>
+<a href="/#kontakt">Kontakt</a>
+</nav>
+<a class="nav-cta" href="https://dtadmin-frontend.capps.dtcloud.de/" rel="noopener">Zur Plattform <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+</div>
+</header>
+<main id="main">
+<section class="hero page-hero">
+<div class="wrap reveal">
+<div class="eyebrow"><span class="pip"></span> Anwendungsfall · Website mit KI</div>
+<h1>Du hast eine Idee. <span class="grad">Deine Website ist live.</span></h1>
+<p class="lead">Du bekommst deine eigene Website unter deiner Domain, ohne Code, ohne Server, ohne Entwickler. Du beschreibst deiner KI, was du willst. DTAdmin baut, sichert und betreibt die Seite. Texte und Bilder pflegt dein Team im Browser, oder deine KI übernimmt das, wenn du willst.</p>
+<div class="cta-row">
+<a class="btn btn-primary" href="https://ai.demo.deltatree.de/" rel="noopener">Live-Demo ansehen <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+<a class="btn btn-ghost" href="#reise">So einfach geht’s</a>
+</div>
+</div>
+</section>
+
+<section style="padding-top:0">
+<div class="wrap">
+<div class="sect-head reveal">
+<p class="kicker">Warum</p>
+<h2>Eine Website sollte so einfach sein wie deine Idee.</h2>
+<p>Gute Ideen scheitern selten am Inhalt, sondern am Drumherum: Server, Zertifikate, Schutz, Sicherungen. Darum soll sich niemand kümmern müssen, der eine Schule leitet. Deshalb gibt es DTAdmin.</p>
+</div>
+<div class="bridge reveal">
+<div class="col">
+<div class="label">Ohne DTAdmin</div>
+<ul>
+<li>Server mieten, einrichten, aktualisieren</li>
+<li>HTTPS-Zertifikat besorgen und erneuern</li>
+<li>Domain und DNS von Hand verbinden</li>
+<li>Schutz vor Angriffen selbst bauen</li>
+<li>Sicherungen planen und prüfen</li>
+<li>Für jede Textänderung den Entwickler fragen</li>
+</ul>
+</div>
+<div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
+<div class="col new">
+<div class="label">Mit DTAdmin</div>
+<ul>
+<li>Ein Konto, eine Oberfläche</li>
+<li>HTTPS automatisch, für jede Domain</li>
+<li>Domain und DNS an einem Ort</li>
+<li>Web-Firewall eingebaut</li>
+<li>Tägliche Sicherung, Server in Deutschland</li>
+<li>Dein Team pflegt Inhalte selbst, oder deine KI</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+<div class="sect-head reveal">
+<p class="kicker">Für dich</p>
+<h2>Was du davon hast.</h2>
+</div>
+<div class="cards">
+<article class="card reveal"><p class="kicker" style="margin:0 0 8px">Schnell online</p><h3>Du sagst, was du willst</h3><p>Deine KI richtet alles ein. Du musst keinen Server verstehen und keinen Entwickler beauftragen.</p></article>
+<article class="card reveal"><p class="kicker" style="margin:0 0 8px">Unabhängig</p><h3>Dein Team pflegt Inhalte, oder deine KI</h3><p>Texte und Bilder ändert dein Team selbst im Browser. Oder du sagst deiner KI, was neu ist.</p></article>
+<article class="card reveal"><p class="kicker" style="margin:0 0 8px">Sorgenfrei</p><h3>Du behältst die Kontrolle</h3><p>Nichts geht live ohne dein „passt“. HTTPS, Firewall und tägliche Sicherung laufen von selbst, auf Servern in Deutschland.</p></article>
+</div>
+</div>
+</section>
+
+<section id="reise" style="background:linear-gradient(180deg,transparent,var(--bg-2))">
+<div class="wrap">
+<div class="sect-head reveal">
+<p class="kicker">Die Reise</p>
+<h2>So läuft es, in fünf Schritten.</h2>
+<p>Am Beispiel unserer Demo: Lena leitet die erfundene „Grundschule Sonnenwiese“ und will endlich eine Website, die Eltern gern besuchen. Jedes Bild stammt aus unserer Produktion unter <a href="https://ai.demo.deltatree.de/" rel="noopener">ai.demo.deltatree.de</a>.</p>
+</div>
+<ol class="journey">
+<li class="journey-step reveal">
+<div><h3>Du gibst deiner KI einen sicheren Schlüssel</h3><p>Ein Klick in DTAdmin: <b>KI-Zugang</b>, deine Domain eintragen, fertig. Deine KI darf damit nur unter deiner Domain arbeiten, nie an deinen Rechnungen, Datenbanken oder anderen Projekten.</p></div>
+<div class="shots"><figure class="shot tall"><img src="/assets/usecases/16-dtadmin-ki-zugang.webp" width="560" height="852" alt="DTAdmin-Dialog Zugriff für KI aktivieren mit Domain-Grenze **.firma.de" loading="lazy"><figcaption>Ein Dialog, eine Domain</figcaption></figure></div>
+</li>
+<li class="journey-step reveal">
+<div><h3>Du sagst, was du willst</h3><p>„Eine Website für unsere Grundschule, die das Kollegium selbst pflegen kann.“ Mehr braucht deine KI nicht: Die Anleitung von DTAdmin erklärt ihr den Rest. Sie richtet Git-Server, Bau und Domain selbst ein.</p></div>
+<div class="shots"><figure class="shot"><img src="/assets/usecases/01-website-vorher.webp" width="1200" height="750" alt="Erste, schlichte Fassung der Demo-Website Grundschule Sonnenwiese" loading="lazy"><figcaption>Die erste Fassung, schon live, mit HTTPS</figcaption></figure></div>
+</li>
+<li class="journey-step reveal">
+<div><h3>Dein Team pflegt Inhalte, oder deine KI</h3><p>Unter <code>/admin</code> öffnet sich ein einfaches Formular in Decap CMS: Titel, Text, Bild. Rechts siehst du sofort die Vorschau. Kein Code, kein zweites Passwortsystem. Keine Zeit? Dann sag deiner KI, was sich ändern soll. Sie zeigt es dir vorher und wartet auf dein „passt“.</p></div>
+<div class="shots"><figure class="shot"><img src="/assets/usecases/07-decap-geaendert.webp" width="1200" height="750" alt="Formular in Decap CMS: Kurzbeschreibung um die Anmeldung für die ersten Klassen ergänzt, rechts die Vorschau" loading="lazy"><figcaption>Neu: „Anmeldung für die ersten Klassen ab 1. Dezember“</figcaption></figure></div>
+</li>
+<li class="journey-step reveal">
+<div><h3>Ein Klick, und es ist online</h3><p>„Veröffentlichen“ genügt. DTAdmin baut die Seite und rollt sie aus. Jede Änderung ist gespeichert und lässt sich zurückholen.</p></div>
+<div class="shots"><figure class="shot"><img src="/assets/usecases/13-forgejo-actions.webp" width="1200" height="500" alt="Liste der automatischen Läufe nach Änderungen von Redaktion und KI" loading="lazy"><figcaption>Jede Änderung baut sich von selbst</figcaption></figure></div>
+</li>
+<li class="journey-step reveal">
+<div><h3>Neues Design? Deine Texte bleiben</h3><p>Du willst moderner wirken? Sag es deiner KI. Sie zeigt dir das neue Layout zuerst als Vorschau, und du sagst „passt“. Alles, was dein Team geschrieben hat, bleibt erhalten.</p></div>
+<div class="shots"><figure class="shot"><img src="/assets/usecases/10-website-nachher.webp" width="1200" height="750" alt="Demo-Website der Grundschule Sonnenwiese im neuen Design, die Neuigkeit zur Anmeldung ist erhalten" loading="lazy"><figcaption>Neues Design am Rechner</figcaption></figure><figure class="shot tall" style="flex-basis:150px"><img src="/assets/usecases/15-website-nachher-handy.webp" width="1170" height="1992" alt="Neues Layout auf dem Handy" loading="lazy"><figcaption>… und auf dem Handy</figcaption></figure></div>
+</li>
+</ol>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+<div class="sect-head reveal">
+<p class="kicker">Was du bekommst</p>
+<h2>Drei Rollen, klar getrennt.</h2>
+</div>
+<div class="cards">
+<article class="card reveal"><h3>Deine KI baut, was du beschreibst</h3><p>Mit einem Zugang, der nur für deine Domain gilt. Alles andere lehnt DTAdmin ab.</p></article>
+<article class="card reveal"><h3>Dein Team pflegt Inhalte, oder deine KI</h3><p>Im Browser unter <code>/admin</code> oder per Auftrag an deine KI, wenn du willst. Wer was geändert hat, siehst du jederzeit.</p></article>
+<article class="card reveal"><h3>DTAdmin erledigt den Rest</h3><p>Git-Server, automatischer Bau, HTTPS, Firewall und Sicherung aus einer Hand.</p></article>
+</div>
+</div>
+</section>
+
+<section style="background:linear-gradient(180deg,transparent,var(--bg-2))">
+<div class="wrap">
+<div class="sect-head reveal">
+<p class="kicker">Selbst einrichten</p>
+<h2>Genau diese Prompts haben wir getestet.</h2>
+<p>Wir haben sie in unserer Produktion mit einer frischen KI ausprobiert, nur mit der KI-Anleitung und ohne Nachhilfe. Ersetze <code>firma.de</code> durch deine Domain und die Angaben durch deine.</p>
+</div>
+<div class="howto">
+<article class="card reveal">
+<h3>1. KI-Zugang anlegen, nur für deine Domain</h3>
+<ol>
+<li>Melde dich bei <a href="https://dtadmin-frontend.capps.dtcloud.de/welcome" rel="noopener">DTAdmin</a> an und öffne <b>API-Tokens</b> → <b>KI-Zugang</b>.</li>
+<li>Trage unter <b>Geltungsbereich – Domains</b> <code>**.firma.de</code> ein und lade die <b>KI-Anleitung</b> herunter (<code>dtadmin-ai-access.md</code>).</li>
+<li>Lege die Datei in den Ordner, in dem dein Coding Assistant arbeitet (Claude Code, Cursor, Copilot …).</li>
+</ol>
+<p class="note" style="margin:0">Mit der Kommandozeile: <code>dtcli tokens ai-access --domain '**.firma.de'</code></p>
+</article>
+<article class="card reveal">
+<h3>2. Prompt: Git-Werkstatt anlegen</h3>
+<div class="prompt-box"><div class="label">Prompt 1</div><button class="copy" type="button" data-copy="pw1">Kopieren</button>
+<pre class="prompt" id="pw1">Lies die Datei dtadmin-ai-access.md und halte dich an jede Regel darin. Lege mir eine Git-Werkstatt unter git.firma.de an, Titel „Grundschule Sonnenwiese“, Admin-E-Mail info@firma.de. Dort soll später auch unsere Website liegen, die unter firma.de läuft. Sag mir danach, wie ich mich zum ersten Mal anmelde.</pre></div>
+<p class="note" style="margin:0">Die KI legt die Werkstatt an und nennt dir Benutzer und Startpasswort.</p>
+</article>
+<article class="card reveal">
+<h3>3. Dein Schritt: anmelden und der KI einen Schlüssel geben</h3>
+<p style="color:var(--ink-mute);font-size:14.5px;margin:0 0 8px">Forgejo lässt die KI erst weiterarbeiten, wenn du dich einmal selbst angemeldet hast. So geht es:</p>
+<ol>
+<li>Öffne <code>https://git.firma.de</code> und melde dich mit dem Benutzer und Startpasswort an, die dir die KI genannt hat.</li>
+<li>Forgejo verlangt sofort ein neues Passwort. Wähle ein eigenes.</li>
+<li>Oben rechts Profilbild → <b>Einstellungen</b> → <b>Anwendungen</b> → <b>Zugangstoken</b> erstellen. Name zum Beispiel „KI-Assistent“, Rechte <b>Lesen und Schreiben</b> für <b>Organisation</b>, <b>Repository</b> und <b>Benutzer</b>.</li>
+<li>Kopiere das Token sofort, Forgejo zeigt es nur einmal. Speichere es als Datei <code>forgejo-token.txt</code> in denselben Ordner wie <code>dtadmin-ai-access.md</code>.</li>
+</ol>
+<p class="hint"><b>Wichtig:</b> Dein Passwort braucht die KI nie. Das Token bekommt sie nur als Datei, nie im Chat. Was du in den Chat tippst, bleibt im Verlauf stehen.</p>
+</article>
+<article class="card reveal">
+<h3>4. Prompt: Website bauen</h3>
+<div class="prompt-box"><div class="label">Prompt 2</div><button class="copy" type="button" data-copy="pw2">Kopieren</button>
+<pre class="prompt" id="pw2">Mein Forgejo-Zugangstoken liegt in der Datei forgejo-token.txt. Lies es nur von dort und zeig es nie an. Baue eine Website für unsere Grundschule „Sonnenwiese“ unter firma.de, die mein Team mit Decap CMS selbst im Browser pflegt. Jede Änderung im Repository soll automatisch live gehen. Zum Schluss sag mir, wie sich mein Team anmeldet.</pre></div>
+<p class="note" style="margin:0">Danach ist die Website live. Zum Schluss nennt die KI die Angaben, die noch fehlen, etwa Impressum und Kontaktdaten.</p>
+</article>
+<article class="card reveal">
+<h3>5. Dein Team einladen</h3>
+<ol>
+<li>In der Git-Werkstatt: Profilbild → <b>Website-Administration</b> → <b>Benutzerkonten</b> → <b>Benutzerkonto erstellen</b>. Für jede Person ein Konto mit Startpasswort.</li>
+<li>Organisation öffnen → <b>Teams</b> → <b>Redaktion</b> → Personen hinzufügen. Das Team darf nur die Website bearbeiten.</li>
+<li>Dein Team öffnet <code>https://firma.de/admin/</code>, klickt <b>Mit Forgejo einloggen</b> und bestätigt einmal mit <b>Anwendung autorisieren</b>.</li>
+</ol>
+</article>
+<article class="card reveal">
+<h3>6. Prompt: Inhalte von der KI pflegen lassen (wenn du willst)</h3>
+<div class="prompt-box"><div class="label">Prompt 3</div><button class="copy" type="button" data-copy="pw3">Kopieren</button>
+<pre class="prompt" id="pw3">Ändere auf unserer Website die Sprechzeiten des Sekretariats auf Montag bis Freitag 7:30 bis 13 Uhr und schreibe eine Neuigkeit „Anmeldung für die ersten Klassen startet“. Ändere nur Inhalte, nie das Layout. Zeig mir vorher in einfachen Worten, was sich ändert, und schalte es erst live, wenn ich „passt“ sage.</pre></div>
+<p class="note" style="margin:0">Die KI zeigt dir im Chat, was sich ändert, zum Beispiel „Sekretariat: vorher 7:30 bis 12:30 Uhr, nachher 7:30 bis 13 Uhr“ und den ganzen Text der neuen Meldung. Du schreibst „passt“, und die KI schaltet es live. Das Layout bleibt dabei unberührt. Dein Team kann daneben weiter im Browser pflegen.</p>
+</article>
+<article class="card reveal">
+<h3>7. Prompt: neues Design</h3>
+<div class="prompt-box"><div class="label">Prompt 4</div><button class="copy" type="button" data-copy="pw4">Kopieren</button>
+<pre class="prompt" id="pw4">Gestalte meine Website moderner. Ändere nur das Layout, nie die Inhalte meines Teams. Zeig es mir zuerst als Vorschau unter vorschau.firma.de und schalte es erst live, wenn ich „passt“ sage. Räum die Vorschau danach wieder ab.</pre></div>
+<p class="note" style="margin:0">Die KI schickt dir einen Link zur Vorschau. Du schaust sie dir an wie jede Website, am Handy und am Rechner. Gefällt sie dir, schreibst du „passt“, und das neue Design geht live, mit allen Texten deines Teams. Gefällt sie dir nicht, sag der KI, was anders sein soll. Beim ersten Mal braucht die Vorschau etwas länger, weil die neue Adresse erst im Internet bekannt werden muss.</p>
+</article>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+<div class="sect-head reveal">
+<p class="kicker">Häufige Fragen</p>
+<h2>Kurz gefragt.</h2>
+</div>
+<div class="faq reveal">
+<details><summary>Brauche ich Programmierkenntnisse?</summary><div>Nein. Den Aufbau übernimmt deine KI, die Pflege ist ein Formular im Browser. Auch die kann deine KI übernehmen, wenn du willst.</div></details>
+<details><summary>Was passiert mit meinen Texten beim neuen Design?</summary><div>Nichts. Inhalte und Layout liegen getrennt. Die KI ändert nur das Layout.</div></details>
+<details><summary>Kann die KI etwas anderes in meinem Konto ändern?</summary><div>Nein. Der KI-Zugang gilt nur für deine Domain. Datenbanken, Abrechnung oder andere Domains lehnt DTAdmin ab.</div></details>
+<details><summary>Wo laufen Website und Git-Werkstatt?</summary><div>Auf DeltaTree-Servern in Deutschland, mit HTTPS, Web-Firewall und täglicher Sicherung.</div></details>
+<details><summary>Geht das auch ohne KI?</summary><div>Ja. Alle Schritte gehen auch von Hand. Die KI spart dir nur Zeit.</div></details>
+</div>
+<div class="cta-band reveal">
+<div>
+<h2>Deine Idee wartet.</h2>
+<p>Konto anlegen, KI-Zugang erstellen, loslegen. Oder schreib uns, wir helfen beim Einrichten.</p>
+</div>
+<div class="cta-row">
+<a class="btn-light" href="https://dtadmin-frontend.capps.dtcloud.de/register" rel="noopener">Konto anlegen <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+<a class="btn-light" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.6);box-shadow:none" href="mailto:info@deltatree.de?subject=Website%20mit%20KI">Beratung anfragen</a>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+<footer>
+<div class="wrap f-row">
+<div>© <span id="yr"></span> DeltaTree · Inh. Alexander Widak · Made in Germany</div>
+<div class="f-links">
+<a href="/website-mit-ki/">Anwendungsfälle</a>
+<button data-modal="impressum">Impressum</button>
+<button data-modal="agb">AGB</button>
+<button data-modal="datenschutz">Datenschutz</button>
+<button data-modal="av">Auftragsverarbeitung</button>
+</div>
+<div class="f-meta">DeltaTree · Alexander Widak</div>
+</div>
+</footer>
+<dialog class="legal" id="m-impressum"> <div class="head"><h3>Impressum</h3><button class="x" type="button" data-close>Schließen ✕</button></div> <div class="body"> <h4>Anbieter</h4> <p>DeltaTree<br>Inhaber: Alexander Widak<br>Deutschland<br>E-Mail: info@deltatree.de</p> <h4>Umsatzsteuer</h4> <p>Kleinunternehmer im Sinne von §&nbsp;19 Abs.&nbsp;1 UStG – Umsatzsteuer wird nicht erhoben und nicht ausgewiesen.</p> <h4>Verantwortlich für den Inhalt nach §&nbsp;18 Abs.&nbsp;2 MStV</h4> <p>Alexander Widak, Anschrift wie oben.</p> <h4>Haftungsausschluss</h4> <p>Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.</p> <h4>EU-Streitschlichtung</h4> <p>Plattform der EU zur Online-Streitbeilegung: <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>. Wir sind nicht verpflichtet und nicht bereit, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p> </div> </dialog>
+<dialog class="legal" id="m-agb"> <div class="head"><h3>Allgemeine Geschäftsbedingungen</h3><button class="x" type="button" data-close>Schließen ✕</button></div> <div class="body"> <p style="color:var(--ink-faint);font-size:12.5px">Stand: April 2026 · gilt für die DTAdmin-Plattform (Container-Hosting, Domains, E-Mail, Datenbanken, Registry, AI-Assistent).</p> <h4>§&nbsp;1 Geltungsbereich</h4> <p>Diese AGB regeln die Nutzung der von DeltaTree, Inhaber Alexander Widak („DeltaTree"), betriebenen Plattform DTAdmin (erreichbar unter dtadmin-frontend.capps.dtcloud.de) sowie aller darüber bestellten Leistungen. Abweichende Bedingungen des Kunden gelten nur, wenn DeltaTree ihnen ausdrücklich schriftlich zustimmt.</p> <h4>§&nbsp;2 Vertragsgegenstand</h4> <p>DeltaTree stellt eine Container-Plattform auf Basis von Kubernetes nebst zugehörigen Diensten (Domain-Registrierung, DNS, IMAP-Mail, Managed Datenbanken, Container-Registry, Object-Storage, Backups, Monitoring, AI-Assistent) zur Verfügung. Der genaue Leistungsumfang ergibt sich aus dem im Portal gewählten Plan und der jeweils aktuellen Leistungsbeschreibung.</p> <h4>§&nbsp;3 Vertragsschluss</h4> <p>Die Bestellung erfolgt ausschließlich über die Plattform unter dtadmin-frontend.capps.dtcloud.de/products. Mit Absenden des Bestellformulars gibt der Kunde ein verbindliches Angebot ab. Der Vertrag kommt durch Annahmebestätigung per E-Mail oder Bereitstellung der Leistung zustande.</p> <h4>§&nbsp;4 Mitwirkungspflichten</h4> <ul> <li>Wahrheitsgemäße Stammdaten, insbesondere für Domain-Inhaber-Einträge (Whois).</li> <li>Sichere Aufbewahrung von Zugangsdaten, API-Tokens und Service-Account-Schlüsseln.</li> <li>Einhalten geltenden Rechts; insbesondere keine Verbreitung rechtswidriger, jugendgefährdender oder rechteverletzender Inhalte.</li> <li>Keine Versendung von Spam, kein Missbrauch zum Mining, kein DDoS-Verkehr ein- oder ausgehend.</li> </ul> <h4>§&nbsp;5 Verfügbarkeit</h4> <p>DeltaTree ist um eine Verfügbarkeit von 99,5&nbsp;% im Jahresmittel bemüht. Hiervon ausgenommen sind angekündigte Wartungsfenster, höhere Gewalt sowie vom Kunden zu vertretende Ausfälle. Backups werden täglich erstellt und 30&nbsp;Tage vorgehalten; eine Wiederherstellung erfolgt auf Anfrage oder im Rahmen von Self-Service-Restores.</p> <h4>§&nbsp;6 Vergütung &amp; Abrechnung</h4> <p>Die im Portal angezeigten Preise sind Endpreise. Gemäß §&nbsp;19 UStG (Kleinunternehmerregelung) wird keine Umsatzsteuer erhoben und nicht ausgewiesen. Pläne werden monatlich oder jährlich im Voraus berechnet; verbrauchsabhängige Komponenten (z.&nbsp;B. zusätzlicher Storage, Traffic über Inklusivvolumen) werden monatlich nachgelagert abgerechnet. Zahlung per SEPA-Lastschrift, PayPal oder Überweisung. Rechnungen werden elektronisch im PDF-Format bereitgestellt.</p> <h4>§&nbsp;7 Laufzeit &amp; Kündigung</h4> <p>Die Mindestlaufzeit beträgt einen Monat (Monatsplan) bzw. die im Portal angegebene Periode. Die Kündigungsfrist beträgt 14&nbsp;Tage zum Ende der jeweiligen Laufzeit. Kündigung im Selfservice über das Portal oder per E-Mail an info@deltatree.de. Domains werden zum Ablauf der Registrierungsperiode gekündigt; KK-Anträge werden kostenfrei bearbeitet.</p> <h4>§&nbsp;8 Widerrufsrecht für Verbraucher</h4> <p>Verbrauchern steht ein 14-tägiges Widerrufsrecht zu. Bei digitalen Inhalten und Dienstleistungen erlischt das Widerrufsrecht, sobald DeltaTree mit der Leistungserbringung begonnen hat und der Verbraucher dem ausdrücklich zugestimmt sowie seine Kenntnis vom Erlöschen bestätigt hat. Eine entsprechende Belehrung erfolgt im Bestellprozess.</p> <h4>§&nbsp;9 Haftung</h4> <p>DeltaTree haftet unbeschränkt für Vorsatz und grobe Fahrlässigkeit sowie nach Maßgabe des Produkthaftungsgesetzes. Bei einfacher Fahrlässigkeit haftet DeltaTree nur für die Verletzung wesentlicher Vertragspflichten und auf den vertragstypischen, vorhersehbaren Schaden. Eine Haftung für Datenverluste ist auf den Aufwand beschränkt, der bei ordnungsgemäßer Sicherung durch den Kunden zur Wiederherstellung notwendig wäre.</p> <h4>§&nbsp;10 AI-Assistent</h4> <p>Der integrierte AI-Assistent (betrieben durch einen Sub-Auftragsverarbeiter) erzeugt Antworten algorithmisch. Die Antworten können fehlerhaft, unvollständig oder veraltet sein. Der Kunde prüft sicherheits- und vertragsrelevante Vorschläge eigenverantwortlich. Vertrauliche personenbezogene Daten Dritter dürfen nicht in Prompts eingegeben werden.</p> <h4>§&nbsp;11 Anwendbares Recht &amp; Gerichtsstand</h4> <p>Es gilt deutsches Recht unter Ausschluss des UN-Kaufrechts. Gerichtsstand für Kaufleute ist der Sitz von DeltaTree.</p> <h4>§&nbsp;12 Änderungen</h4> <p>Änderungen dieser AGB werden dem Kunden mindestens 30&nbsp;Tage vor Inkrafttreten in Textform mitgeteilt. Sie gelten als angenommen, wenn der Kunde nicht innerhalb dieser Frist widerspricht.</p> </div> </dialog>
+<dialog class="legal" id="m-datenschutz"> <div class="head"><h3>Datenschutzhinweise</h3><button class="x" type="button" data-close>Schließen ✕</button></div> <div class="body"> <p style="color:var(--ink-faint);font-size:12.5px">Stand: Oktober 2026 · gemäß Art.&nbsp;13/14 DSGVO &amp; §&nbsp;25 TTDSG.</p> <h4>1. Verantwortlicher</h4> <p>DeltaTree, Inhaber Alexander Widak, Deutschland · datenschutz@deltatree.de</p> <h4>2. Diese statische Webseite (deltatree.de)</h4> <p>Die vorliegende Marketingseite ist <b>vollständig statisch</b>. Sie enthält keine Cookies, keine Analytics, keine Drittanbieter-Skripte, keine Embeds, keine Schriftarten von externen CDNs. Es werden nur die Server-Logs Ihres aufgerufenen Hostings gespeichert (IP, Zeitpunkt, User-Agent, max. 7&nbsp;Tage, Rechtsgrundlage Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO – Sicherheit).</p> <p>Für die Auto-Update-Funktion sendet Ihr Browser im Abstand von 60&nbsp;Sekunden eine HEAD-Anfrage an die eigene Adresse, um <code>ETag</code>/<code>Last-Modified</code> zu prüfen. Es werden keine Daten an Dritte übertragen.</p> <p>Die Status-Anzeige im Bereich „Live-Status" prüft per HEAD-Request, ob dtadmin-frontend.capps.dtcloud.de erreichbar ist. Hierbei verbindet sich Ihr Browser direkt mit der Plattform; eine technische Verbindung (IP, User-Agent) wird unvermeidbar übertragen. Rechtsgrundlage: berechtigtes Interesse an der Anzeige des Live-Zustands (Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f).</p> <h4>3. Plattform DTAdmin (dtadmin-frontend.capps.dtcloud.de)</h4> <p>Bei Nutzung der Plattform verarbeiten wir folgende Datenkategorien:</p> <ul> <li><b>Stammdaten:</b> Name, Anschrift, E-Mail, ggf. Firmendaten, USt-ID</li> <li><b>Vertrags-/Abrechnungsdaten:</b> gewählter Plan, Verbrauch, Rechnungs- &amp; Zahlungsinformationen</li> <li><b>Authentifizierungsdaten:</b> Passwort-Hash, API-Tokens, 2FA-Geheimnisse</li> <li><b>Nutzungsdaten:</b> Logins, Aktionsprotokolle (Audit-Log)</li> <li><b>Inhaltsdaten:</b> die von Ihnen in Containern, Datenbanken, Mailboxen oder Buckets abgelegten Inhalte</li> <li><b>AI-Interaktionen:</b> Prompts und Antworten des AI-Assistenten (zur Anzeige der Historie)</li> </ul> <p>Rechtsgrundlagen: Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b (Vertrag), lit.&nbsp;c (gesetzliche Aufbewahrungspflichten) und lit.&nbsp;f (Sicherheit, Missbrauchsabwehr).</p> <h4>4. Hosting &amp; Speicherorte</h4> <p>Alle Plattform-Daten werden ausschließlich auf Servern in Deutschland gespeichert. Es findet keine Übermittlung in Drittländer statt. Das gilt auch für die AI-Funktion: Ihre Sprachmodelle laufen in einem Rechenzentrum in Deutschland.</p> <h4>5. Auftragsverarbeiter (Sub-Processoren)</h4> <ul> <li>Rechenzentrums- und Netzwerk-Dienstleister in DE</li> <li>PayPal (Europe) S.à r.l. et Cie, S.C.A. – Zahlungsabwicklung (nur bei PayPal-Auswahl)</li> <li>Bank für SEPA-Lastschrift (nur bei SEPA-Auswahl)</li> <li>IONOS SE (IONOS AI Model Hub, Rechenzentrum in Deutschland) – ausschließlich bei den AI-Funktionen</li> </ul> <p>Mit allen Auftragsverarbeitern bestehen Verträge nach Art.&nbsp;28 DSGVO. Ein Auftragsverarbeitungsvertrag (AVV) zwischen Ihnen und DeltaTree wird auf Anfrage – oder im Self-Service über das Portal – geschlossen.</p> <h4>6. Speicherdauer</h4> <p>Inhaltsdaten werden bis zur Vertragsbeendigung verarbeitet und 30&nbsp;Tage danach gelöscht (Backup-Retention). Rechnungs- und Steuerdaten 10&nbsp;Jahre (HGB/AO). Audit-Logs 12&nbsp;Monate.</p> <h4>7. Ihre Rechte</h4> <p>Sie haben jederzeit Recht auf Auskunft (Art.&nbsp;15), Berichtigung (Art.&nbsp;16), Löschung (Art.&nbsp;17), Einschränkung (Art.&nbsp;18), Datenübertragbarkeit (Art.&nbsp;20) sowie Widerspruch (Art.&nbsp;21) und Beschwerde bei einer Aufsichtsbehörde. Anfragen: datenschutz@deltatree.de.</p> <h4>8. Cookies / lokaler Speicher</h4> <p>Diese Seite setzt <b>keine</b> Cookies und nutzt keinen Local Storage. Im Plattform-Portal werden lediglich technisch notwendige Cookies (Session, CSRF) gesetzt (§&nbsp;25 Abs.&nbsp;2 TTDSG).</p> </div> </dialog>
+<dialog class="legal" id="m-av"> <div class="head"><h3>Auftragsverarbeitung &amp; Sicherheit</h3><button class="x" type="button" data-close>Schließen ✕</button></div> <div class="body"> <p style="color:var(--ink-faint);font-size:12.5px">Eckpunkte – der vollständige AVV nach Art.&nbsp;28 DSGVO ist im Portal abrufbar.</p> <h4>Technische und organisatorische Maßnahmen (TOM)</h4> <ul> <li>Mandantentrennung über Kubernetes-Namespaces &amp; NetworkPolicies</li> <li>Verschlüsselung at-rest (AES-256) und in-transit (TLS 1.2+)</li> <li>Rollenbasierter Zugriff (RBAC), Service-Accounts, 2FA</li> <li>Audit-Logs sämtlicher API-Operationen</li> <li>Tägliche verschlüsselte Backups, 30 Tage Retention, Restore-Tests</li> <li>Server in deutschen Rechenzentren externer Hosting-Dienstleister</li> <li>Pen-Tests &amp; Code-Reviews vor Major-Releases</li> <li>Datenlöschung nach Vertragsende, auf Wunsch mit Lösch-Bestätigung</li> </ul> <h4>Sub-Auftragsverarbeiter</h4> <p>Aktuelle Liste: siehe Datenschutzhinweise §&nbsp;5. Änderungen werden 30&nbsp;Tage vor Wirksamkeit angekündigt – mit Widerspruchsrecht.</p> </div> </dialog>
+<script src="/assets/common.js" defer></script>
+</body>
+</html>
