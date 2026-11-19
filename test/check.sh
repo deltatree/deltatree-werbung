@@ -197,10 +197,13 @@ PY
   ); do echo "$regelp" | grep -q "$hash" || fail "$pfad: Skript-Hash $hash fehlt in der Sicherheitsregel"; done
   grep -Eo 'src="https?://[^"]*"' "$S" && fail "$pfad lädt fremde Inhalte nach"
   grep -Eo '[[:space:]]on[a-z]+="' "$S" && fail "$pfad: Inline-Handler"
-  for bild in $(grep -oE 'src="/[^"]+\.(webp|png)"' "$S" | sed -E 's/src="([^"]+)"/\1/' | sort -u); do
+  for bild in $(grep -oE 'src="/[^"]+\.(webp|png)(\?v=[0-9a-f]+)?"' "$S" | sed -E 's/src="([^"]+)"/\1/' | sort -u); do
     case "$(typ "$bild")" in 200\ image/*) : ;; *) fail "$pfad: Bild $bild liefert $(typ "$bild")";; esac
   done
   grep -oE '<img [^>]*>' "$S" | grep -v 'alt="[^"]' && fail "$pfad: Bild ohne Alternativtext"
+  # Bilder bleiben 7 Tage im Browser: Ohne Versionskennung sähen Besucher nach einem Tausch
+  # weiter das alte Bild (Tischlerei statt Grundschule, 2026-11-19).
+  [ "$pfad" = /visit ] || ! grep -oE '(src|href)="/assets/[^"]+"' "$S" | grep -vE '\?v=[0-9a-f]{10}"$' || fail "$pfad: /assets/-Verweis ohne Versionskennung"
   can=$(grep -oE '<link rel="?canonical"? href="[^"]*"' "$S" | sed -E 's/.*href="([^"]*)"/\1/')
   erwartet="https://deltatree.de$pfad"
   [ "$can" = "$erwartet" ] || fail "$pfad: canonical '$can' statt $erwartet"
