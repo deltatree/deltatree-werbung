@@ -47,7 +47,7 @@ for gz in $(find "$ORDNER" -name '*.html.gz'); do
 done
 # Keine Zeitangaben aus Sicht der Nutzerreise (Inhaber 2026-11-19). Rechtstexte
 # stehen in <dialog>-Fenstern und dürfen Zeiten nennen (z. B. 60 Sekunden).
-for f in "$ORDNER/index.html" $(find "$ORDNER/usecases" -name index.html); do
+for f in $(find "$ORDNER" -name index.html -not -path "*/visit/*"); do
   perl -0pe 's/<dialog.*?<\/dialog>//gs; s/<script.*?<\/script>//gs' "$f" | grep -Eiq '\b(minute|minuten|sekunde|sekunden)\b' \
     && fail "Zeitangabe außerhalb der Rechtstexte in ${f#$ORDNER/}"
 done
@@ -105,7 +105,8 @@ echo "  $anzahl Skript-Hash(es) in der Sicherheitsregel bestätigt"
 # Die Seite prüft live, ob Anwendung und Schnittstelle erreichbar sind. Steht eine dieser
 # Herkünfte nicht in connect-src, zeigt sie dauerhaft "offline" — und niemand sieht einen
 # Fehler, weil der Server sauber 200 meldet. Die Ziele kommen AUS der Seite, nicht von Hand.
-ziele=$(grep -oE '"https://[^"]+",[[:space:]]*"row-[a-z]+"' "$SEITE" | sed -E 's/^"([^"]+)".*/\1/' | sort -u)
+# Seit 2026-11-19 steht die Prüfung in /assets/common.js.
+ziele=$(curl -s "http://127.0.0.1:$PORT/assets/common.js" | grep -oE 'https://dtadmin-[a-z]+\.capps\.dtcloud\.de[^"'"'"' ]*' | sort -u)
 [ -n "$ziele" ] || fail "keine Statusziele in der Seite gefunden — Muster passt nicht mehr"
 for ziel in $ziele; do
   herkunft=$(echo "$ziel" | sed -E 's#^(https://[^/]+).*#\1#')
@@ -183,13 +184,14 @@ rm -f "$V"
 
 # 22–25: SEO und KI-Auffindbarkeit, an JEDER Seite (Vorbild LYS)
 B="http://127.0.0.1:$PORT"
-for pfad in / /usecases /usecases/website-mit-ki /usecases/digitale-visitenkarte /visit; do
+for pfad in / /entwickler/ /plattform/ /website-mit-ki/ /website-mit-ki/website/ /website-mit-ki/visitenkarte/ /preise/ /wechsel/ /visit; do
   S="/tmp/werbung-seo-$$.html"; code=$(curl -s -o "$S" -w '%{http_code}' "$B$pfad")
   [ "$code" = "200" ] || fail "$pfad liefert $code"
   regelp=$(curl -sI "$B$pfad" | tr -d '\r' | grep -i 'content-security-policy')
   for hash in $(python3 - "$S" <<'PY'
 import base64, hashlib, re, sys
-for b in re.findall(rb"<script\b[^>]*>(.*?)</script>", open(sys.argv[1], "rb").read(), re.S):
+# JSON-LD ist Daten, kein Skript: Die Sicherheitsregel gilt dafür nicht.
+for b in re.findall(rb"<script\b(?![^>]*ld\+json)[^>]*>(.*?)</script>", open(sys.argv[1], "rb").read(), re.S):
     print("sha256-" + base64.b64encode(hashlib.sha256(b).digest()).decode())
 PY
   ); do echo "$regelp" | grep -q "$hash" || fail "$pfad: Skript-Hash $hash fehlt in der Sicherheitsregel"; done
@@ -203,7 +205,7 @@ PY
   erwartet="https://deltatree.de$pfad"
   [ "$can" = "$erwartet" ] || fail "$pfad: canonical '$can' statt $erwartet"
   [ "$(grep -o 'application/ld+json' "$S" | wc -l | tr -d ' ')" = "1" ] || fail "$pfad: nicht genau ein JSON-LD-Block"
-  grep -q '"https://deltatree.de/#organization"' "$S" || fail "$pfad: Organisation ohne gemeinsame @id"
+  [ "$pfad" != / ] || grep -q '"https://deltatree.de/#organization"' "$S" || fail "$pfad: Organisation ohne gemeinsame @id"
   [ "$(grep -o '<h1' "$S" | wc -l | tr -d ' ')" = "1" ] || fail "$pfad: nicht genau eine H1"
   grep -Eq '<meta name="?description"? content="[^"]{50,}' "$S" || fail "$pfad: Beschreibung fehlt"
   grep -Eq 'property="?og:image"? content="https://' "$S" || fail "$pfad: og:image fehlt"
@@ -220,25 +222,33 @@ echo "$r" | grep -q '^Disallow: /$' && fail "robots.txt sperrt alles"
 echo "$r" | grep -A1 '^User-agent: \*$' | grep -q '^Content-Signal: ' || fail "Content-Signal nicht direkt unter User-agent: *"
 case "$(typ /sitemap.xml)" in "200 text/xml"*|"200 application/xml"*) : ;; *) fail "sitemap.xml: $(typ /sitemap.xml)";; esac
 locs=$(curl -s "$B/sitemap.xml" | grep -oE '<loc>[^<]+' | sed 's/<loc>//' | tr '\n' ' ')
-[ "$locs" = "https://deltatree.de/ https://deltatree.de/usecases https://deltatree.de/usecases/website-mit-ki https://deltatree.de/usecases/digitale-visitenkarte https://deltatree.de/visit " ] || fail "Sitemap ≠ Seitenliste: $locs"
+[ "$locs" = "https://deltatree.de/ https://deltatree.de/entwickler/ https://deltatree.de/plattform/ https://deltatree.de/preise/ https://deltatree.de/visit https://deltatree.de/website-mit-ki/ https://deltatree.de/website-mit-ki/visitenkarte/ https://deltatree.de/website-mit-ki/website/ https://deltatree.de/wechsel/ " ] || fail "Sitemap ≠ Seitenliste: $locs"
 case "$(typ /llms.txt)" in "200 text/markdown"*) : ;; *) fail "llms.txt: $(typ /llms.txt)";; esac
 curl -s "$B/llms.txt" | grep -q '^# DeltaTree' || fail "llms.txt ohne Überschrift"
 for f in /og.png /apple-touch-icon.png /favicon.ico; do case "$(typ $f)" in 200\ image/*) : ;; *) fail "$f: $(typ $f)";; esac; done
 curl -sI "$B/og.png" | grep -qi '^cache-control: public, max-age=604800' || fail "Bilder ohne langen Cache"
 curl -sI "$B/og.png" | grep -qi '^content-security-policy' || fail "Bilder ohne Sicherheitsregel"
 curl -sI "$B/" | grep -qi '^x-powered-by' && fail "X-Powered-By gesetzt"
+curl -sI "$B/" | grep -qi '^x-frame-options: DENY' || fail "X-Frame-Options fehlt"
 w=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' -H 'Host: www.deltatree.de' "$B/visit?x=1")
 [ "$w" = "301 https://deltatree.de/visit?x=1" ] || fail "www leitet nicht dauerhaft auf deltatree.de: $w"
 code=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "$B/index.html")
 case "$code" in "301 "*"/") : ;; *) fail "/index.html: $code";; esac
 code=$(curl -s -o /dev/null -w '%{http_code}' "$B/")
 [ "$code" = "200" ] || fail "/ nach index-Umleitung: $code (Schleife?)"
-for u in /usecases/ /usecases/website-mit-ki/ /usecases/digitale-visitenkarte/; do
-  ort=$(curl -s -D- -o /dev/null "$B$u" | tr -d '\r' | grep -i '^location:' | sed 's/^[Ll]ocation:[[:space:]]*//')
-  [ "$ort" = "${u%/}" ] || fail "$u leitet auf '$ort' statt ${u%/}"
+# Alte Adressen der Anwendungsfälle (bis 2026-11-19) leiten dauerhaft auf die neuen Seiten.
+for paar in /usecases=/website-mit-ki/ /usecases/=/website-mit-ki/ \
+  /usecases/website-mit-ki=/website-mit-ki/website/ /usecases/website-mit-ki/=/website-mit-ki/website/ \
+  /usecases/digitale-visitenkarte=/website-mit-ki/visitenkarte/ /usecases/digitale-visitenkarte/=/website-mit-ki/visitenkarte/ \
+  /usecases/bilder/k2-karte-qr.webp=/assets/usecases/k2-karte-qr.webp; do
+  u=${paar%%=*}; ziel=${paar#*=}
+  w=$(curl -s -D- -o /dev/null "$B$u" | tr -d '\r' | awk 'NR==1{print $2} tolower($1)=="location:"{print $2}' | tr '\n' ' ')
+  [ "$w" = "301 $ziel " ] || fail "$u: '$w' statt 301 $ziel"
 done
-grep -q 'href="/usecases"' "$SEITE" || fail "Fuß der Startseite ohne Link auf /usecases"
-curl -s "$B/usecases" | grep -q 'href="/visit' && fail "/usecases verlinkt die Gründer-Visitenkarte"
+grep -q 'href="/website-mit-ki/"' "$SEITE" || fail "Startseite ohne Link auf /website-mit-ki/"
+for pfad in /website-mit-ki/ /website-mit-ki/website/ /website-mit-ki/visitenkarte/; do
+  curl -s "$B$pfad" | grep -q 'href="/visit' && fail "$pfad verlinkt die Gründer-Visitenkarte"
+done
 w=$(curl -s -o /dev/null -w '%{http_code}' -H 'Host: gartenfutter.de' "$B/")
 [ "$w" = "200" ] || fail "andere Domains liefern $w"
 echo "  SEO: canonical, JSON-LD, robots.txt, sitemap.xml, llms.txt, Bilder, www-Umleitung bestätigt"
