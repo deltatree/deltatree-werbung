@@ -45,6 +45,12 @@ ORDNER="$(cd "$(dirname "$0")/.." && pwd)/site"
 for gz in $(find "$ORDNER" -name '*.html.gz'); do
   gunzip -c "$gz" | cmp -s - "${gz%.gz}" || fail "${gz#$ORDNER/} passt nicht zu ${gz%.gz}"
 done
+# Keine Zeitangaben aus Sicht der Nutzerreise (Inhaber 2026-11-19). Rechtstexte
+# stehen in <dialog>-Fenstern und dürfen Zeiten nennen (z. B. 60 Sekunden).
+for f in "$ORDNER/index.html" $(find "$ORDNER/usecases" -name index.html); do
+  perl -0pe 's/<dialog.*?<\/dialog>//gs; s/<script.*?<\/script>//gs' "$f" | grep -Eiq '\b(minute|minuten|sekunde|sekunden)\b' \
+    && fail "Zeitangabe außerhalb der Rechtstexte in ${f#$ORDNER/}"
+done
 if command -v brotli >/dev/null; then
   for br in $(find "$ORDNER" -name '*.html.br'); do
     brotli -dc "$br" | cmp -s - "${br%.br}" || fail "${br#$ORDNER/} passt nicht zur Seite"
