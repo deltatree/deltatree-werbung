@@ -21,6 +21,10 @@ for (const pfad of ['/usecases', '/usecases/website-mit-ki', '/usecases/digitale
     pruefe(!(await seite.evaluate(() => document.documentElement.scrollWidth > innerWidth)), `${pfad} ${breite}px: Seite scrollt seitlich`);
     const kaputt = await seite.evaluate(() => [...document.images].filter(i => !i.complete || i.naturalWidth === 0).map(i => i.src));
     pruefe(kaputt.length === 0, `${pfad} ${breite}px: Bilder laden nicht: ${kaputt.join(', ')}`);
+    // Bilder bleiben 7 Tage im Browser. Ohne Versionskennung sah der Betreiber nach dem Tausch
+    // weiter die alten Bilder (Tischlerei statt Grundschule, 2026-11-19).
+    const ohneVersion = await seite.evaluate(() => [...document.images].map(i => i.getAttribute('src')).filter(s => /\/usecases\/bilder\//.test(s) && !/\?v=[0-9a-f]{10}$/.test(s)));
+    pruefe(ohneVersion.length === 0, `${pfad} ${breite}px: Bilder ohne Versionskennung: ${ohneVersion.join(', ')}`);
     pruefe(await seite.locator('h1').count() === 1, `${pfad} ${breite}px: nicht genau eine H1`);
     if (breite >= 1440) { // Betreiber 2026-11-17: am Desktop die ganze Breite nutzen
       const anteil = await seite.evaluate(() => document.querySelector('main').getBoundingClientRect().width / innerWidth);
