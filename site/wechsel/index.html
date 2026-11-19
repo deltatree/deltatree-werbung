@@ -97,10 +97,11 @@
 <table class="facts">
 <thead><tr><th>Thema</th><th>Klassisches Webhosting</th><th>DTAdmin</th></tr></thead>
 <tbody>
-<tr><td>Bereitstellung</td><td>Dateien per FTP hochladen</td><td>Quellcode oder OCI-Image, DTAdmin baut mit Nixpacks</td></tr>
+<tr><td>Bereitstellung</td><td>Dateien per FTP hochladen</td><td>Dateien weiter per FTPS (FTP über TLS) in Ordner, die dein Container nutzt. Oder Quellcode und OCI-Image, DTAdmin baut mit Nixpacks</td></tr>
+<tr><td>Zugang per SSH</td><td>SSH-Zugang zum Webspace</td><td>SSH und SFTP nativ (Port 2222). Dazu ein Terminal in deinen Container: im Browser oder mit dtcli</td></tr>
 <tr><td>Laufzeit-Versionen</td><td>PHP-Version von Hand im Panel wählen</td><td>DTAdmin erkennt die Sprache automatisch</td></tr>
-<tr><td>Grenzen</td><td>Tarife mit festen Limits für Speicher und Mailboxen</td><td>Pläne mit klar benannter Leistung: SSD, RAM und CPU</td></tr>
-<tr><td>Wachstum</td><td>Mehr Last heißt Tarifwechsel</td><td>Horizontal skalieren mit einem Klick</td></tr>
+<tr><td>Grenzen</td><td>Tarife mit festen Limits für Speicher und Mailboxen</td><td>Pläne mit klar benannter Leistung: Speicher, RAM und CPU</td></tr>
+<tr><td>Wachstum</td><td>Mehr Last heißt Tarifwechsel</td><td>Horizontal skalieren per API, bis 10 Instanzen</td></tr>
 <tr><td>Wartung</td><td>Updates von Hand, App-Installer</td><td>Auto-Updates, Healthchecks, Auto-Restart</td></tr></tbody>
 </table>
 </div>
@@ -114,7 +115,7 @@
 <h2>Der Umzug in drei Schritten.</h2></div>
 <ol class="steps">
 <li class="reveal"><h3>App bereitstellen</h3><p>Lade deinen Quellcode hoch oder gib ein OCI-Image an. DTAdmin erkennt die Sprache und baut. Datenbanken legst du mit einem Klick an, oder deine KI legt sie an.</p></li>
-<li class="reveal"><h3>Domain umziehen</h3><p>Starte im Portal den Umzug deiner Domain. Den KK-Antrag bearbeiten wir kostenlos. Oder du registrierst eine neue Domain.</p></li>
+<li class="reveal"><h3>Domain umziehen</h3><p>Schreib uns, welche Domain zu uns umziehen soll. Den KK-Antrag bearbeiten wir kostenlos. Oder du bestellst eine neue Domain im Portal.</p></li>
 <li class="reveal"><h3>DNS und Mail umstellen</h3><p>Trag A-, MX- und TXT-Einträge in der Oberfläche ein und lege deine IMAP-Mailboxen an. Oder deine KI erledigt das über die API. Das SSL-Zertifikat kommt automatisch.</p></li>
 </ol>
 <div class="cta-band reveal">

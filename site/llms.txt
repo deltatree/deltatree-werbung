@@ -9,16 +9,16 @@ auf Kubernetes: Apps und Container-Stacks, Domains, E-Mail, Datenbanken, Backups
 
 - [DeltaTree · DTAdmin – Container-Plattform aus Deutschland](https://deltatree.de/): DTAdmin ist die Container-Plattform von DeltaTree: Apps, Domains, E-Mail und Datenbanken richtest du selbst ein oder lässt es deine KI erledigen. Für Entwickler, Plattform-Teams und alle, die einfach eine Website wollen.
 - [DTAdmin für Entwickler – Code pushen, wir betreiben ihn](https://deltatree.de/entwickler/): Für Entwickler und kleine Teams: DTAdmin baut deinen Code mit Nixpacks, rollt ihn auf Kubernetes aus und liefert Domains, Mail und Datenbanken dazu. Hosting in Deutschland.
-- [DTAdmin für Plattform-Teams – viele Teams, mehrere Cluster](https://deltatree.de/plattform/): Für große Teams und Plattform-Betreiber: Multi-Cluster, Rollen und Service-Accounts, CLI und API, Helm und private Registry. Betrieben in deutschen Rechenzentren.
+- [DTAdmin für Plattform-Teams – viele Teams, mehrere Cluster](https://deltatree.de/plattform/): Für große Teams und Plattform-Betreiber: mehrere Cluster mit Failover, Rollen und API-Tokens, CLI und API, Helm-Import und private Registry. Betrieben in deutschen Rechenzentren.
 - [Website mit KI – deine KI baut sie, DeltaTree betreibt sie](https://deltatree.de/website-mit-ki/): Eine eigene Website oder digitale Visitenkarte ohne Technikwissen: Deine KI baut sie, du änderst Texte im Browser, DeltaTree kümmert sich um Server, Domain, HTTPS und Sicherung. Zwei echte Beispiele mit Anleitung.
 - [Anwendungsfall: Schul-Website mit KI bauen und im Team pflegen](https://deltatree.de/website-mit-ki/website/): Echtes Beispiel aus der DeltaTree-Produktion: Eine KI baut die Website der Grundschule Sonnenwiese, das Team pflegt sie im Browser. Fünf Schritte mit Bildern und getesteten Prompts zum Nachmachen.
 - [Anwendungsfall: Digitale Visitenkarte mit QR-Code unter eigener Domain](https://deltatree.de/website-mit-ki/visitenkarte/): Echtes Beispiel aus der DeltaTree-Produktion: Eine KI baut die digitale Visitenkarte von Lena Sommer mit QR-Code und Kontakt speichern. Fünf Schritte mit Bildern und getesteten Prompts zum Nachmachen.
-- [Preise und Laufzeiten – DTAdmin von DeltaTree](https://deltatree.de/preise/): Preise und Laufzeiten von DTAdmin: Hosting ab 0,99 € im Monat, monatlich kündbar mit 14 Tagen Frist. Domains werden jährlich bezahlt. Zahlung per SEPA, PayPal oder Überweisung.
+- [Preise und Laufzeiten – DTAdmin von DeltaTree](https://deltatree.de/preise/): Preise und Laufzeiten von DTAdmin: Hosting ab 0,99 € im Monat, monatlich kündbar mit 14 Tagen Frist. Domains werden jährlich bezahlt. Zahlung per Überweisung oder PayPal.
 - [Wechsel vom klassischen Webhosting zu DTAdmin in 3 Schritten](https://deltatree.de/wechsel/): So ziehst du vom klassischen Webhosting zu DTAdmin um: App bereitstellen, Domain umziehen mit kostenlosem KK-Antrag, DNS und Mail umstellen. Mit Vergleich und Hilfe per Live-Demo.
 - [Alexander Widak · DeltaTree – Digitale Visitenkarte](https://deltatree.de/visit): Digitale Visitenkarte von Alexander Widak, Inhaber von DeltaTree. Kontakt speichern, teilen und DTAdmin entdecken – die Container-Plattform aus Deutschland.
 
 ## DTAdmin-Anwendung
 
 - [DTAdmin-Portal](https://dtadmin-frontend.capps.dtcloud.de/welcome): Anmeldung, Produkte und Pläne
-- [llms.txt der Anwendung](https://dtadmin-frontend.capps.dtcloud.de/llms.txt): Schnittstellen, CLI und MCP für KI-Agenten
+- [llms.txt der Anwendung](https://dtadmin-frontend.capps.dtcloud.de/llms.txt): Schnittstellen und CLI für KI-Agenten
 - [Entwicklerhandbuch](https://dtadmin-frontend.capps.dtcloud.de/developer-guide): Anleitungen für API und `dtcli`

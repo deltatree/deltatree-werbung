@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f7fafc" media="(prefers-color-scheme: light)">
-<meta name="description" content="Für große Teams und Plattform-Betreiber: Multi-Cluster, Rollen und Service-Accounts, CLI und API, Helm und private Registry. Betrieben in deutschen Rechenzentren.">
+<meta name="description" content="Für große Teams und Plattform-Betreiber: mehrere Cluster mit Failover, Rollen und API-Tokens, CLI und API, Helm-Import und private Registry. Betrieben in deutschen Rechenzentren.">
 <title>DTAdmin für Plattform-Teams – viele Teams, mehrere Cluster</title>
 <link rel="canonical" href="https://deltatree.de/plattform/">
 <meta name="robots" content="index,follow">
@@ -15,7 +15,7 @@
 <meta property="og:locale" content="de_DE">
 <meta property="og:url" content="https://deltatree.de/plattform/">
 <meta property="og:title" content="DTAdmin für Plattform-Teams – viele Teams, mehrere Cluster">
-<meta property="og:description" content="Für große Teams und Plattform-Betreiber: Multi-Cluster, Rollen und Service-Accounts, CLI und API, Helm und private Registry. Betrieben in deutschen Rechenzentren.">
+<meta property="og:description" content="Für große Teams und Plattform-Betreiber: mehrere Cluster mit Failover, Rollen und API-Tokens, CLI und API, Helm-Import und private Registry. Betrieben in deutschen Rechenzentren.">
 <meta property="og:image" content="https://deltatree.de/og.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=73cdaeb2e5">
 <link rel="icon" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M261 140L165 308l91 158 121-209 121-210H315z" fill="%231697F6"/><path d="M135 256l6 12 91-157 37-64H14z" fill="%23AEDDFF"/><path d="M315 47c46 150-59 419-59 419L165 308z" fill="%231867C0"/><path d="M269 47C76 47 141 268 141 268z" fill="%237BC6FF"/></svg>'>
@@ -29,7 +29,7 @@
    "@id": "https://deltatree.de/plattform/#webpage",
    "url": "https://deltatree.de/plattform/",
    "name": "DTAdmin für Plattform-Teams – viele Teams, mehrere Cluster",
-   "description": "Für große Teams und Plattform-Betreiber: Multi-Cluster, Rollen und Service-Accounts, CLI und API, Helm und private Registry. Betrieben in deutschen Rechenzentren.",
+   "description": "Für große Teams und Plattform-Betreiber: mehrere Cluster mit Failover, Rollen und API-Tokens, CLI und API, Helm-Import und private Registry. Betrieben in deutschen Rechenzentren.",
    "isPartOf": {
     "@id": "https://deltatree.de/#website"
    },
@@ -83,7 +83,7 @@
 <div class="wrap reveal">
 <div class="eyebrow"><span class="pip"></span> Für große Teams und Plattform-Betreiber</div>
 <h1>Viele Teams, mehrere Cluster, <span class="grad">eine Plattform.</span></h1>
-<p class="lead">Wenn dutzende Anwendungen auf mehreren Kubernetes-Clustern laufen, braucht jedes Team eigene Rechte und eine Pipeline, die ohne Klicks deployt. DTAdmin verwaltet die Cluster zentral. Deine Teams arbeiten in der Oberfläche, Pipelines und deine KI über API und dtcli. Die Server stehen in deutschen Rechenzentren.</p>
+<p class="lead">Wenn dutzende Anwendungen auf mehreren Kubernetes-Clustern laufen, braucht jedes Team eigene Rechte und eine Pipeline, die ohne Klicks deployt. DTAdmin läuft auf mehreren Clustern. Du wählst, wo deine Stacks laufen, mit Failover. Deine Teams arbeiten in der Oberfläche, Pipelines und deine KI über API und dtcli. Die Server stehen in deutschen Rechenzentren.</p>
 <div class="cta-row">
 <a class="btn btn-primary" href="mailto:info@deltatree.de?subject=Gespr%C3%A4ch%20Plattform-Team">Gespräch vereinbaren <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
 <a class="btn btn-ghost" href="#av">Auftragsverarbeitung lesen</a>
@@ -98,14 +98,14 @@
 <h2>Was Plattform-Teams brauchen.</h2>
 </div>
 <div class="caps">
-<div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div><div><b>Multi-Cluster</b><span>Mehrere Kubernetes-Cluster zentral verwalten</span></div></div>
-<div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 0 0-8 0v4"/><rect x="5" y="11" width="14" height="10" rx="2"/></svg></div><div><b>Team &amp; Rollen</b><span>Rechte pro Team über RBAC, dazu 2FA</span></div></div>
-<div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2L20 3M16 7l3 3"/></svg></div><div><b>Service-Accounts</b><span>Eigene Zugänge für Pipelines und Automatisierung</span></div></div>
+<div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div><div><b>Mehrere Cluster</b><span>Standort je Stack wählen, mit Failover</span></div></div>
+<div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 0 0-8 0v4"/><rect x="5" y="11" width="14" height="10" rx="2"/></svg></div><div><b>Zwei Rollen</b><span>Eigentümer und Nutzer. Anmeldung über Google oder GitHub, mit deren Zwei-Faktor-Schutz</span></div></div>
+<div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2L20 3M16 7l3 3"/></svg></div><div><b>API-Tokens</b><span>Eigene Zugänge für Pipelines und KI, mit Rechten und Domain-Bereich</span></div></div>
 <div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 6h16M4 18h16"/></svg></div><div><b>CLI &amp; API</b><span>dtcli und API für CI/CD</span></div></div>
-<div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 17l9 4 9-4M3 12l9 4 9-4"/></svg></div><div><b>Helm-kompatibel</b><span>Vorhandene Charts direkt deployen</span></div></div>
+<div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 17l9 4 9-4M3 12l9 4 9-4"/></svg></div><div><b>Helm-Import</b><span>Charts importieren, Deployments werden zum Stack</span></div></div>
 <div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div><div><b>Private Registry</b><span>Eigene OCI-Container-Registry</span></div></div>
-<div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5"/></svg></div><div><b>Object-Storage</b><span>S3-kompatible Buckets</span></div></div>
-<div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/><path d="M12 7v5l3 3"/></svg></div><div><b>Logs &amp; Audit</b><span>Live-Logs, Metriken und Audit-Logs aller API-Operationen</span></div></div>
+<div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5"/></svg></div><div><b>Isolation</b><span>Kubernetes-Namespaces und NetworkPolicies</span></div></div>
+<div class="cap reveal"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/><path d="M12 7v5l3 3"/></svg></div><div><b>Logs &amp; Aktivität</b><span>Live-Logs und ein Aktivitätsprotokoll wichtiger Aktionen, 30 Tage aufbewahrt</span></div></div>
 </div>
 </div>
 </section>
@@ -114,19 +114,19 @@
 <div class="wrap">
 <div class="sect-head reveal">
 <p class="kicker">Sicherheit &amp; Datenschutz</p>
-<h2>Was in der Auftragsverarbeitung steht.</h2>
-<p>Deine Rechtsabteilung fragt danach. Hier ist die Kurzfassung. Den vollen Text findest du in der <a href="#av">Vereinbarung zur Auftragsverarbeitung</a>.</p>
+<h2>Was die Plattform heute tut.</h2>
+<p>Deine Rechtsabteilung fragt danach. Hier steht, was technisch umgesetzt ist. Die rechtlichen Zusagen regelt die <a href="#av">Vereinbarung zur Auftragsverarbeitung</a>.</p>
 </div>
 <div class="table-scroll reveal">
 <table class="facts">
-<thead><tr><th>Thema</th><th>Zusage</th></tr></thead>
+<thead><tr><th>Thema</th><th>Stand heute</th></tr></thead>
 <tbody>
 <tr><td>Standort</td><td>Server in deutschen Rechenzentren</td></tr>
-<tr><td>Verschlüsselung</td><td>At-rest mit AES-256, in-transit mit TLS 1.2 oder höher</td></tr>
-<tr><td>Zugriff</td><td>Rollenbasiert (RBAC), Service-Accounts, 2FA</td></tr>
-<tr><td>Nachvollziehbarkeit</td><td>Audit-Logs sämtlicher API-Operationen</td></tr>
-<tr><td>Backups</td><td>Täglich, verschlüsselt, 30 Tage Aufbewahrung, mit Restore-Tests</td></tr>
-<tr><td>Prüfungen</td><td>Pen-Tests und Code-Reviews vor Major-Releases</td></tr>
+<tr><td>Verschlüsselung</td><td>HTTPS mit TLS 1.2 oder höher. Gespeicherte Zugangsdaten und Sicherungen mit AES-256-GCM</td></tr>
+<tr><td>Zugriff</td><td>Zwei Rollen (Eigentümer, Nutzer), API-Tokens mit Rechten und Domain-Bereich, Anmeldung über Google oder GitHub</td></tr>
+<tr><td>Nachvollziehbarkeit</td><td>Aktivitätsprotokoll wichtiger Aktionen, 30 Tage aufbewahrt</td></tr>
+<tr><td>Backups</td><td>Täglich, verschlüsselt. 14 Tages-, 8 Wochen- und 6 Monatsstände. Wiederherstellen im Portal</td></tr>
+<tr><td>Isolation</td><td>Kubernetes-Namespaces und NetworkPolicies</td></tr>
 <tr><td>Verfügbarkeit</td><td>Wir streben 99,5&nbsp;% im Jahresmittel an (AGB §&nbsp;5).</td></tr>
 </tbody>
 </table>
