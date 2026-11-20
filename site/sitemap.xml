@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://deltatree.de/</loc></url>
+  <url><loc>https://deltatree.de/agb/</loc></url>
+  <url><loc>https://deltatree.de/auftragsverarbeitung/</loc></url>
+  <url><loc>https://deltatree.de/datenschutz/</loc></url>
   <url><loc>https://deltatree.de/entwickler/</loc></url>
+  <url><loc>https://deltatree.de/impressum/</loc></url>
   <url><loc>https://deltatree.de/plattform/</loc></url>
   <url><loc>https://deltatree.de/preise/</loc></url>
   <url><loc>https://deltatree.de/visit</loc></url>
