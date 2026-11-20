@@ -76,7 +76,7 @@ for m in impressum datenschutz agb av; do
 done
 
 # 6: keine unbelegten Kennzahlen
-grep -Eq '[0-9]+\+ |99,9' "$SEITE" && fail "unbelegte Kennzahl auf der Startseite"
+grep -Eq '(^|[^.0-9])[0-9]+\+ |99,9' "$SEITE" && fail "unbelegte Kennzahl auf der Startseite"  # Versionsangaben wie „TLS 1.2+“ zählen nicht
 # Hardware ist gemietet (Contabo, Strato, IONOS), eine ISO-Zertifizierung ist nicht belegt (Inhaber 2026-11-19)
 grep -Eiq 'eigene[rn]? Hardware|ISO-?27001|Keine Jahresvertr' "$SEITE" && fail "unbelegte Zusage zu Hardware, Zertifikat oder Laufzeit"
 # Elasticsearch stellt DTAdmin nicht bereit (DatabaseController, 2026-11-19).
