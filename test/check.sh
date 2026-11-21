@@ -264,5 +264,15 @@ w=$(curl -s -o /dev/null -w '%{http_code}' -H 'Host: gartenfutter.de' "$B/")
 [ "$w" = "200" ] || fail "andere Domains liefern $w"
 echo "  SEO: canonical, JSON-LD, robots.txt, sitemap.xml, llms.txt, Bilder, www-Umleitung bestätigt"
 
+# HSTS (Entscheid des Inhabers 2026-11-21): sechs Monate, ohne includeSubDomains und ohne preload.
+# Genau ein Kopf mit genau diesem Wert, auch auf Umleitungen, Bildern, 404 und der www-Adresse.
+for weg in / /visit /og.png /index.html /impressum.html /usecases /llms.txt /gibt-es-nicht.png /healthz; do
+  hsts=$(curl -s -D- -o /dev/null "$B$weg" | tr -d '\r' | grep -i '^strict-transport-security:' || true)
+  [ "$hsts" = "Strict-Transport-Security: max-age=15552000" ] || fail "$weg: HSTS '$hsts' statt max-age=15552000"
+done
+hsts=$(curl -s -D- -o /dev/null -H 'Host: www.deltatree.de' "$B/visit" | tr -d '\r' | grep -i '^strict-transport-security:' || true)
+[ "$hsts" = "Strict-Transport-Security: max-age=15552000" ] || fail "www: HSTS '$hsts' statt max-age=15552000"
+echo "  HSTS: genau ein Kopf max-age=15552000 auf allen Wegen bestätigt"
+
 rm -f "$SEITE"
 echo "OK: alle Prüfungen bestanden"

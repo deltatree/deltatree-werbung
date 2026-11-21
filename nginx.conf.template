@@ -10,6 +10,8 @@ server {
     listen 8080;
     server_name www.deltatree.de;
     server_tokens off;
+    # HSTS wie im Hauptserver (Entscheid 2026-11-21), auch auf der Umleitung.
+    add_header Strict-Transport-Security "max-age=15552000" always;
     location = /healthz { access_log off; return 200 "ok\n"; }
     location / { return 301 https://deltatree.de$request_uri; }
 }
@@ -35,6 +37,9 @@ server {
     add_header Referrer-Policy strict-origin-when-cross-origin always;
     # Für alte Browser ohne frame-ancestors (Abnahmetest der neuen Seite, 2026-11-19).
     add_header X-Frame-Options DENY always;
+    # HSTS (Entscheid des Inhabers vom 2026-11-21): Der Browser ruft die Seite sechs Monate nur per HTTPS auf.
+    # Ohne includeSubDomains und ohne preload. Nur auf Serverebene, wie die anderen Köpfe.
+    add_header Strict-Transport-Security "max-age=15552000" always;
     # __SCRIPT_SRC__ setzt build-csp.py beim Bau des Abbilds ein: 'self' plus den
     # SHA-256-Hash jedes Inline-Skripts. Kein 'unsafe-inline' — der Browser fuehrt
     # genau diese Bytes aus und nichts sonst.
