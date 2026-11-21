@@ -11,8 +11,9 @@ const pruefe = (ok, text) => { if (!ok) fehler.push(text); };
 const browser = await chromium.launch();
 
 for (const pfad of SEITEN) {
-  for (const breite of [320, 390, 768, 1440]) {
+  for (const breite of [320, 390, 768, 1440]) for (const schema of ['dark', 'light']) { // Farbschema seit 2026-11-21
     const ctx = await browser.newContext({ viewport: { width: breite, height: 900 }, isMobile: breite < 768, hasTouch: breite < 768 });
+    await ctx.addInitScript(t => { try { localStorage.setItem('dt-farbschema', t); } catch (e) {} }, schema);
     const seite = await ctx.newPage();
     const meldungen = [];
     seite.on('console', m => { if (/Content Security Policy|Refused/i.test(m.text())) meldungen.push(m.text()); });
@@ -21,11 +22,17 @@ for (const pfad of SEITEN) {
     await seite.evaluate(async () => { for (const img of document.images) img.loading = 'eager'; window.scrollTo(0, document.body.scrollHeight); });
     await seite.waitForLoadState('networkidle');
     pruefe(meldungen.length === 0, `${pfad} ${breite}px: ${meldungen.join(' | ')}`);
-    pruefe(!(await seite.evaluate(() => document.documentElement.scrollWidth > innerWidth)), `${pfad} ${breite}px: Seite scrollt seitlich`);
+    pruefe(await seite.evaluate(() => document.documentElement.dataset.theme) === schema, `${pfad} ${breite}px: Farbschema ${schema} nicht gesetzt`);
+    pruefe(await seite.locator('.theme-toggle').isVisible(), `${pfad} ${breite}px ${schema}: Farbschema-Knopf fehlt`);
+    pruefe(!(await seite.evaluate(() => document.documentElement.scrollWidth > innerWidth)), `${pfad} ${breite}px: Seite scrollt seitlich (${schema})`);
     const kaputt = await seite.evaluate(() => [...document.images].filter(i => !i.complete || i.naturalWidth === 0).map(i => i.src));
     pruefe(kaputt.length === 0, `${pfad} ${breite}px: Bilder laden nicht: ${kaputt.join(', ')}`);
     pruefe(await seite.locator('h1').count() === 1, `${pfad} ${breite}px: nicht genau eine H1`);
-    if (breite === 390) { // Betreiber 2026-11-17: Anrede „du“, kein IHK-Hinweis
+    if (breite === 390 && schema === 'light') { // Umschalter: Hell → Automatisch → Dunkel
+      await seite.locator('.theme-toggle').click();
+      pruefe(await seite.evaluate(() => document.documentElement.dataset.theme) === 'auto', `${pfad}: Umschalter wechselt nicht auf Automatisch`);
+    }
+    if (breite === 390 && schema === 'dark') { // Betreiber 2026-11-17: Anrede „du“, kein IHK-Hinweis
       const text = await seite.locator('main').innerText();
       const sie = text.match(/\b(Ihr|Ihre|Ihren|Ihrem|Ihrer|Ihnen)\b/g) || [];
       pruefe(!/IHK/.test(text), `${pfad}: IHK-Hinweis auf der Seite`);
