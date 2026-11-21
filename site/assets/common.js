@@ -16,8 +16,8 @@
   }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
   document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 
-  // Rechtstexte als Dialog, auch über #impressum, #agb, #datenschutz, #av.
-  const legal = ["impressum", "agb", "datenschutz", "av"];
+  // Rechtstexte als Dialog, auch über #impressum, #agb, #datenschutz, #av, #widerruf.
+  const legal = ["impressum", "agb", "datenschutz", "av", "widerruf"];
   const open = (id) => document.getElementById("m-" + id)?.showModal();
   document.querySelectorAll("[data-modal]").forEach((b) => b.addEventListener("click", () => open(b.dataset.modal)));
   document.querySelectorAll('a[href^="#"]').forEach((a) => {

@@ -72,7 +72,7 @@ grep -Eo 'src="https?://[^"]*"' "$SEITE" && fail "Seite lädt fremde Inhalte nac
 grep -q 'name="viewport" content="width=device-width' "$SEITE" || fail "kein viewport"
 
 # 4: Rechtstexte erreichbar — als Dialog in der Seite
-for m in impressum datenschutz agb av; do
+for m in impressum datenschutz agb av widerruf; do
   grep -q "data-modal=\"$m\"" "$SEITE" || fail "Rechtstext '$m' fehlt auf der Seite"
 done
 
@@ -192,7 +192,7 @@ rm -f "$V"
 
 # 22–25: SEO und KI-Auffindbarkeit, an JEDER Seite (Vorbild LYS)
 B="http://127.0.0.1:$PORT"
-for pfad in / /entwickler/ /plattform/ /website-mit-ki/ /website-mit-ki/website/ /website-mit-ki/visitenkarte/ /preise/ /wechsel/ /impressum/ /agb/ /datenschutz/ /auftragsverarbeitung/ /visit; do
+for pfad in / /entwickler/ /plattform/ /website-mit-ki/ /website-mit-ki/website/ /website-mit-ki/visitenkarte/ /preise/ /wechsel/ /impressum/ /agb/ /datenschutz/ /auftragsverarbeitung/ /widerruf/ /visit; do
   S="/tmp/werbung-seo-$$.html"; code=$(curl -s -o "$S" -w '%{http_code}' "$B$pfad")
   [ "$code" = "200" ] || fail "$pfad liefert $code"
   regelp=$(curl -sI "$B$pfad" | tr -d '\r' | grep -i 'content-security-policy')
@@ -233,7 +233,7 @@ echo "$r" | grep -q '^Disallow: /$' && fail "robots.txt sperrt alles"
 echo "$r" | grep -A1 '^User-agent: \*$' | grep -q '^Content-Signal: ' || fail "Content-Signal nicht direkt unter User-agent: *"
 case "$(typ /sitemap.xml)" in "200 text/xml"*|"200 application/xml"*) : ;; *) fail "sitemap.xml: $(typ /sitemap.xml)";; esac
 locs=$(curl -s "$B/sitemap.xml" | grep -oE '<loc>[^<]+' | sed 's/<loc>//' | tr '\n' ' ')
-[ "$locs" = "https://deltatree.de/ https://deltatree.de/agb/ https://deltatree.de/auftragsverarbeitung/ https://deltatree.de/datenschutz/ https://deltatree.de/entwickler/ https://deltatree.de/impressum/ https://deltatree.de/plattform/ https://deltatree.de/preise/ https://deltatree.de/visit https://deltatree.de/website-mit-ki/ https://deltatree.de/website-mit-ki/visitenkarte/ https://deltatree.de/website-mit-ki/website/ https://deltatree.de/wechsel/ " ] || fail "Sitemap ≠ Seitenliste: $locs"
+[ "$locs" = "https://deltatree.de/ https://deltatree.de/agb/ https://deltatree.de/auftragsverarbeitung/ https://deltatree.de/datenschutz/ https://deltatree.de/entwickler/ https://deltatree.de/impressum/ https://deltatree.de/plattform/ https://deltatree.de/preise/ https://deltatree.de/visit https://deltatree.de/website-mit-ki/ https://deltatree.de/website-mit-ki/visitenkarte/ https://deltatree.de/website-mit-ki/website/ https://deltatree.de/wechsel/ https://deltatree.de/widerruf/ " ] || fail "Sitemap ≠ Seitenliste: $locs"
 case "$(typ /llms.txt)" in "200 text/markdown"*) : ;; *) fail "llms.txt: $(typ /llms.txt)";; esac
 curl -s "$B/llms.txt" | grep -q '^# DeltaTree' || fail "llms.txt ohne Überschrift"
 for f in /og.png /apple-touch-icon.png /favicon.ico; do case "$(typ $f)" in 200\ image/*) : ;; *) fail "$f: $(typ $f)";; esac; done
